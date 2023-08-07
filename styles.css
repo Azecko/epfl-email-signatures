@@ -2,7 +2,6 @@ body {
     margin-left: 5vw;
 }
 
-.header {
+.main-header {
     margin-top: 3vh;
-    display: grid;
 }

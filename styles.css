@@ -1,7 +1,13 @@
 body {
     margin-left: 5vw;
+    margin-right: 5vw;
 }
 
 .main-header {
     margin-top: 3vh;
+    margin-bottom: 3vh;
+}
+
+.main-header input {
+    width: 25vw;
 }

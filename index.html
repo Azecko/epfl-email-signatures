@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,12 +8,241 @@
     <link rel="stylesheet" href="https://web2018.epfl.ch/6.3.0/css/elements.min.css">
     <script src="https://web2018.epfl.ch/6.3.0/js/elements.min.js"></script>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"
+        integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
 </head>
+
 <body>
+    <script src="script.js"></script>
     <div class="main-header">
         <h1>EPFL Signatures</h1>
-        <p>This tool is used to generate HTML EPFL signatures using the <a href="https://people.epfl.ch" target="_blank">People</a>'s API for emails.</p>
-        <input type="number" class="form-control" placeholder="Sciper here...">
+        <p>This tool is used to generate HTML EPFL signatures using the <a href="https://people.epfl.ch"
+                target="_blank">People</a>'s API for emails.</p>
+        <input id="sciper-input" class="form-control" placeholder="Sciper here..."
+            onchange="getPeopleBySciper(document.getElementById('sciper-input').value)">
+        <div class="firstname"></div>
+    </div>
+
+    <hr>
+
+    <div class="signs">
+        <style type="text/css">
+            .signs a,
+            .signs a:link,
+            .signs a:visited {
+                color: #FF0000;
+            }
+
+
+            .signs a:link {
+                color: #FF0000
+            }
+
+            .signs a:visited {
+                color: #FF0000
+            }
+
+            .signs a:hover {
+                color: #FF0000
+            }
+
+            .signs a:active {
+                color: #FF0000
+            }
+
+            /*outlook links visited state fix*/
+            span.MsoHyperlink {
+                mso-style-priority: 99;
+                color: inherit;
+            }
+
+            span.MsoHyperlinkFollowed {
+                mso-style-priority: 99;
+                color: inherit;
+            }
+
+            a[x-apple-data-detectors] {
+                color: inherit !important;
+                text-decoration: none !important;
+                font-size: inherit !important;
+                font-family: inherit !important;
+                font-weight: inherit !important;
+                line-height: inherit !important;
+            }
+
+            .sign-xl u+#body a {
+                color: inherit !important;
+                text-decoration: none !important;
+                font-size: inherit !important;
+                font-family: inherit !important;
+                font-weight: inherit !important;
+                line-height: inherit !important;
+            }
+
+            #MessageViewBody a {
+                color: inherit !important;
+                text-decoration: none !important;
+                font-size: inherit !important;
+                font-family: inherit !important;
+                font-weight: inherit !important;
+                line-height: inherit !important;
+            }
+
+            .blueLinks a {
+                color: inherit !important;
+                text-decoration: none !important;
+            }
+        </style>
+
+        <div class="sign-xl">
+            <table border="0" cellpadding="0" cellspacing="0" width="500">
+                <tbody>
+                    <tr>
+                        <td border="0" cellpadding="0" cellspacing="0" height="20" width="60">
+                            <a href="https://www.epfl.ch/"><img src="https://web2018.epfl.ch/6.2.2/icons/epfl-logo.png"
+                                    width="100" alt="EPFL logo"></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td height="50"
+                            style="font-family:Helvetica, Arial, sans-serif; font-size:13px; font-style:bold; color:#707070;">
+                            <strong class="firstname-name">Firstname Name</strong>
+                            <br>
+                            <em class="fonction" style="font-size:13px; font-weight:400;">Fonction</em>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td height="40"
+                            style="font-family:Helvetica, Arial, sans-serif; font-size:13px; color:#707070;">
+                            <strong class="epfl-unit">EPFL Unit</strong><br>
+                            <a class="office-place" href="https://plan.epfl.ch/"
+                                style="font color:#FF0000; text-decoration:underline;"><span
+                                    style="color:#FF0000;">Office place</span></a>
+                            <br>
+                            1015 Lausanne
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="hover" height="90"
+                            style="font-family:Helvetica, Arial, sans-serif; font-size:13px; color:#707070;">
+
+                            Phone: <a class="phone" href="tel:+41216931111"
+                                style="font color:#FF0000; text-decoration:underline;"><span style="color:#FF0000;">+41
+                                    21 693 11 11</span></a>
+                            <br>
+                            Mobile: <a href="tel:+4179XXXXXXX"
+                                style="font color:#FF0000; text-decoration:underline;"><span style="color:#FF0000;">+41
+                                    79 XXX XX XX</span></a>
+                            <br>
+                            <a class="email" href="mailto:firstname.name@epfl.ch"
+                                style="font color:#FF0000; text-decoration:underline;"><span
+                                    style="color:#FF0000;">firstname.name@epfl.ch</span></a>
+                            <br>
+                            <a href="https://www.epfl.ch/" style="font color:#FF0000; text-decoration:underline;"><span
+                                    style="color:#FF0000;">mypage.epfl.ch</span></a>
+                            <br>
+                            <a class="people" href="https://www.people.epfl.ch/"
+                                style="font color:#FF0000; text-decoration:underline;"><span
+                                    style="color:#FF0000;">people/firstname.name</span></a>
+
+                        </td>
+                    </tr>
+                    <tr>
+                    <tr>
+                        <td height="15"
+                            style="font-family:Helvetica, Arial, sans-serif; font-size:13px; color:#707070;">
+                            Follow us on social media
+                        </td>
+                    </tr>
+                    <tr>
+                        <td height="25">
+                            <a href="https://twitter.com/EPFL"><img border=0 width=15px height=15px
+                                    src="https://i.goopics.net/o34N7.png" alt="Image"></a>
+                            <a href="https://www.facebook.com/epflcampus"><img border=0 width=15px height=15px
+                                    src="https://i.goopics.net/avare.png" alt="Image"></a>
+                            <a href="https://www.linkedin.com/school/epfl"><img border=0 width=15px height=15px
+                                    src="https://i.goopics.net/3KEwQ.png" alt="Image"></a>
+                            <a href="https://www.instagram.com/epflcampus"><img border=0 width=15px height=15px
+                                    src="https://i.goopics.net/VZ1rZ.png" alt="Image"></a>
+                            <a href="https://www.youtube.com/user/epflnews"><img border=0 width=15px height=15px
+                                    src="https://i.goopics.net/GLOwK.png" alt="Image"></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <hr class="bold darker">
+
+        <div class="sign-l">
+            <table border="0" cellpadding="0" cellspacing="0" width="500">
+                <tbody>
+                    <tr>
+                        <td border="0" cellpadding="0" cellspacing="0" height="20" width="60">
+                            <a href="https://www.epfl.ch/"><img src="https://web2018.epfl.ch/6.2.2/icons/epfl-logo.png"
+                                    width="100" alt="EPFL logo"></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td height="50"
+                            style="font-family:Helvetica, Arial, sans-serif; font-size:13px; font-style:bold; color:#707070;">
+                            <strong class="firstname-name">Firstname Name</strong>
+                            <br>
+                            <em class="fonction" style="font-size:13px; font-weight:400;">Fonction</em>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td height="40"
+                            style="font-family:Helvetica, Arial, sans-serif; font-size:13px; color:#707070;">
+                            <strong class="epfl-unit">EPFL Unit</strong><br>
+                            <a class="office-place" href="https://plan.epfl.ch/" style="font color:#FF0000; text-decoration:underline;"><span
+                                    style="color:#FF0000;">Office place</span></a>
+                            <br>
+                            1015 Lausanne
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="hover" height="50"
+                            style="font-family:Helvetica, Arial, sans-serif; font-size:13px; color:#707070;">
+
+                            Phone: <a class="phone" href="tel:+41216931111"
+                                style="font color:#FF0000; text-decoration:underline;"><span style="color:#FF0000;">+41
+                                    21 693 11 11</span></a>
+                            <br>
+                            Mobile: <a href="tel:+41790000000"
+                                style="font color:#FF0000; text-decoration:underline;"><span style="color:#FF0000;">+41
+                                    79 000 00 00</span></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <hr class="bold darker">
+
+        <div class="sign-m">
+            <table border="0" cellpadding="0" cellspacing="0" width="500">
+                <tbody>
+                    <tr>
+                        <td border="0" cellpadding="0" cellspacing="0" height="20" width="60">
+                            <a href="https://www.epfl.ch/"><img src="https://web2018.epfl.ch/6.2.2/icons/epfl-logo.png"
+                                    width="100" alt="EPFL logo"></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td height="50"
+                            style="font-family:Helvetica, Arial, sans-serif; font-size:13px; font-style:bold; color:#707070;">
+                            <strong class="firstname-name">Firstname Name</strong>
+                            <br>
+                            <em class="fonction" style="font-size:13px; font-weight:400;">Fonction</em>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
     </div>
 </body>
+
 </html>

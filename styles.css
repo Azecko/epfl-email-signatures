@@ -5,10 +5,9 @@ body {
 
 .main-header {
     margin-top: 3vh;
-    margin-bottom: 3vh;
 }
 
-.main-header input {
+.main-header input, .form-group {
     width: 25vw;
 }
 
@@ -16,6 +15,10 @@ body {
     display: flex;
     flex-direction: row;
     gap: 2vw;
+}
+
+.input-and-btn button {
+    border-radius: 10px;
 }
 
 .ui-autocomplete {

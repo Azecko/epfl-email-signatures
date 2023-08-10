@@ -11,3 +11,27 @@ body {
 .main-header input {
     width: 25vw;
 }
+
+.input-and-btn {
+    display: flex;
+    flex-direction: row;
+    gap: 2vw;
+}
+
+.ui-autocomplete {
+    max-height: 100px;
+    overflow-y: auto;
+    /* prevent horizontal scrollbar */
+    overflow-x: hidden;
+}
+  /* IE 6 doesn't support max-height
+   * we use height instead, but this forces the menu to always be this tall
+   */
+  * html .ui-autocomplete {
+    height: 100px;
+}
+
+.ui-autocomplete-loading {
+    background: white url("https://i.gifer.com/origin/4a/4a287dd4b9222ebb17dc354257d0ef79_w200.gif") right center no-repeat;
+    background-size: 5%;
+}

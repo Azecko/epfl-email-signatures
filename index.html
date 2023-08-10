@@ -10,17 +10,26 @@
     <link rel="stylesheet" href="styles.css">
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"
         integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 </head>
 
 <body>
     <script src="script.js"></script>
     <div class="main-header">
+        <div class="alert alert-danger alert-dismissible fade show d-none" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
         <h1>EPFL Signatures</h1>
         <p>This tool is used to generate HTML EPFL signatures using the <a href="https://people.epfl.ch"
                 target="_blank">People</a>'s API for emails.</p>
-        <input id="sciper-input" class="form-control" placeholder="Sciper here..."
-            onchange="getPeopleBySciper(document.getElementById('sciper-input').value)">
-        <div class="firstname"></div>
+        <div class="input-and-btn">
+            <input id="sciper-input" class="form-control" placeholder="Sciper here..."
+            oninput="apiCallAutocomplete()">
+            <button class="btn btn-primary btn-sm" onclick="getPeopleBySciper(document.getElementById('sciper-input').value)">Submit</button>
+        </div>
     </div>
 
     <hr>

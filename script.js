@@ -109,3 +109,61 @@ async function apiCallAutocomplete() {
          }
     });
 }
+
+async function copyHTMLToClipboard(HTML, button) {
+    const css = `
+<style type="text/css">
+
+    a, a:link, a:visited { color:#FF0000; }
+  
+  
+    a:link{color: #FF0000}
+    a:visited{color: #FF0000}
+    a:hover{color: #FF0000}
+    a:active{color: #FF0000}
+    
+    /*outlook links visited state fix*/
+    span.MsoHyperlink { mso-style-priority:99; color:inherit; }
+    span.MsoHyperlinkFollowed { mso-style-priority:99; color:inherit; }
+    
+    a[x-apple-data-detectors] {
+    color: inherit !important;
+        text-decoration: none !important;
+        font-size: inherit !important;
+        font-family: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+    }
+    
+    u + #body a {
+        color: inherit !important;
+        text-decoration: none !important;
+        font-size: inherit !important;
+        font-family: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+    }
+    #MessageViewBody a {
+        color: inherit !important;
+        text-decoration: none !important;
+        font-size: inherit !important;
+        font-family: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+    }
+    
+    .blueLinks a { 
+        color:inherit !important; 
+        text-decoration: none !important; 
+    }
+  
+</style>
+`
+
+    await navigator.clipboard.writeText(css + HTML);
+
+    button.textContent = 'Copied !'
+    setTimeout(function(){ 
+        button.textContent = 'Copy to HTML clipboard'
+    }, 3000);  
+}

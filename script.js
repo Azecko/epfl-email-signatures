@@ -3,7 +3,7 @@ function changeHTML(user, accreditation, phoneValue) {
     $('.fonction').html(user.accreds[accreditation].position)
     $('.epfl-unit').html(user.accreds[accreditation].acronym)
     $('.office-place').html(user.accreds[accreditation].officeList[0] || 'Not defined')
-    $('.phone').html(user.accreds[accreditation].phoneList[phoneValue])
+    $('.phone').html(user.accreds[accreditation].phoneList[phoneValue].replace(/^(\+\d{2})(\d{2})(\d{3})(\d{2})(\d{2})$/, '$1 $2 $3 $4 $5'))
     $('.phone').attr('href', `tel:${user.accreds[accreditation].phoneList[phoneValue]}`)
     $('.email').html(`${user.profile}@epfl.ch`)
     $('.email').attr('href', `mailto:${user.profile}@epfl.ch`)

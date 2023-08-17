@@ -45,7 +45,6 @@ function generateAndChangeHTML(user, accreditation) {
     changeHTML(user, accreditation, phone)
 }
 
-
 function getPeopleBySciper(value) {
     $.get(`https://search-api.epfl.ch/api/ldap?q=${value}`, function( data ) {
         if(!data.length || data.length >= 2) {
@@ -110,6 +109,43 @@ async function apiCallAutocomplete() {
     });
 }
 
+function copyFormatted (html, button) {
+    var container = document.createElement('div')
+    container.innerHTML = html
+
+    container.style.position = 'fixed'
+    container.style.pointerEvents = 'none'
+    container.style.opacity = 0
+
+    var activeSheets = Array.prototype.slice.call(document.styleSheets)
+      .filter(function (sheet) {
+        return !sheet.disabled
+      })
+    document.body.appendChild(container)
+
+    window.getSelection().removeAllRanges()
+  
+    var range = document.createRange()
+    range.selectNode(container)
+    window.getSelection().addRange(range)
+
+    document.execCommand('copy')
+  
+    for (var i = 0; i < activeSheets.length; i++) activeSheets[i].disabled = true
+
+    document.execCommand('copy')
+
+    for (var i = 0; i < activeSheets.length; i++) activeSheets[i].disabled = false
+
+    document.body.removeChild(container)
+
+    button.textContent = 'Copied !'
+
+    setTimeout(function(){ 
+        button.textContent = 'Copy signature to clipboard'
+    }, 3000);
+}
+
 async function copyHTMLToClipboard(HTML, button) {
     const css = `
 <style type="text/css">
@@ -164,6 +200,6 @@ async function copyHTMLToClipboard(HTML, button) {
 
     button.textContent = 'Copied !'
     setTimeout(function(){ 
-        button.textContent = 'Copy to HTML clipboard'
+        button.textContent = 'Copy HTML to clipboard'
     }, 3000);  
 }

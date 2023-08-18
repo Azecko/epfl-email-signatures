@@ -48,7 +48,7 @@ function generateAndChangeHTML(user, accreditation) {
 function getPeopleBySciper(value) {
     $.get(`https://search-api.epfl.ch/api/ldap?q=${value}`, function( data ) {
         if(!data.length || data.length >= 2) {
-            $('.alert-danger').html('Sciper is invalid')
+            $('.alert-danger').html('No unique match for this query')
             $('.alert-danger').removeClass('d-none')
         } else {
             if(data[0].accreds.length > 1) {
@@ -203,3 +203,13 @@ async function copyHTMLToClipboard(HTML, button) {
         button.textContent = 'Copy HTML to clipboard'
     }, 3000);  
 }
+
+$( document ).ready(function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const sciperParam = urlParams.get('q');
+
+    if(sciperParam) {
+        $('#sciper-input').val(sciperParam)
+        getPeopleBySciper($('#sciper-input').val())
+    }
+});

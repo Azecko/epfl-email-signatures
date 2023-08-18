@@ -203,3 +203,13 @@ async function copyHTMLToClipboard(HTML, button) {
         button.textContent = 'Copy HTML to clipboard'
     }, 3000);  
 }
+
+$( document ).ready(function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const sciperParam = urlParams.get('q');
+
+    if(sciperParam) {
+        $('#sciper-input').val(sciperParam)
+        getPeopleBySciper($('#sciper-input').val())
+    }
+});

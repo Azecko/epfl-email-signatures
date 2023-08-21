@@ -48,6 +48,9 @@
     <hr class="accred-hr d-none">
 
     <div class="signs">
+        <div class="mb-4">
+            <button id="edit-button" class="btn btn-primary btn-sm">Edit</button>
+        </div>
         <style type="text/css">
             .signs a,
             .signs a:link,
@@ -139,8 +142,8 @@
                             <td height="40"
                                 style="font-family:Helvetica, Arial, sans-serif; font-size:13px; color:#707070;">
                                 <strong class="epfl-unit">EPFL Unit</strong><br>
-                                <a class="office-place" href="https://plan.epfl.ch/"
-                                    style="font color:#FF0000; text-decoration:underline;"><span
+                                <a class="office-place" href="https://plan.epfl.ch"
+                                    style="color:#FF0000; text-decoration:underline;"><span
                                         style="color:#FF0000;">Office place</span></a>
                                 <br>
                                 1015 Lausanne
@@ -151,22 +154,26 @@
                                 style="font-family:Helvetica, Arial, sans-serif; font-size:13px; color:#707070;">
     
                                 Phone: <a class="phone" href="tel:+41216931111"
-                                    style="font color:#FF0000; text-decoration:underline;"><span style="color:#FF0000;">+41
+                                    style="color:#FF0000; text-decoration:underline;"><span style="color:#FF0000;">+41
                                         21 693 11 11</span></a>
-                                <br>
-                                Mobile: <a href="tel:+4179XXXXXXX"
-                                    style="font color:#FF0000; text-decoration:underline;"><span style="color:#FF0000;">+41
-                                        79 XXX XX XX</span></a>
-                                <br>
+                                <span id="mobile-phone-data" class="mobile-phone-span">
+                                    <br>
+                                    Mobile:
+                                    <a class="mobile-href" href="tel:+4179XXXXXXX"
+                                        style="color:#FF0000; text-decoration:underline;"><span id="mobile-phone-value" style="color:#FF0000;">+41 79 XXX XX XX</span></a>
+                                </span>
+                                <br> 
                                 <a class="email" href="mailto:firstname.name@epfl.ch"
-                                    style="font color:#FF0000; text-decoration:underline;"><span
+                                    style="color:#FF0000; text-decoration:underline;"><span
                                         style="color:#FF0000;">firstname.name@epfl.ch</span></a>
-                                <br>
-                                <a href="https://www.epfl.ch/" style="font color:#FF0000; text-decoration:underline;"><span
-                                        style="color:#FF0000;">mypage.epfl.ch</span></a>
+                                <span id="website-page-data">
+                                    <br>
+                                    <a id="website-a" href="https://www.epfl.ch/" style="color:#FF0000; text-decoration:underline;"><span
+                                            id="website-value" style="color:#FF0000;">mypage.epfl.ch</span></a>
+                                </span>
                                 <br>
                                 <a class="people" href="https://www.people.epfl.ch/"
-                                    style="font color:#FF0000; text-decoration:underline;"><span
+                                    style="color:#FF0000; text-decoration:underline;"><span
                                         style="color:#FF0000;">people/firstname.name</span></a>
     
                             </td>
@@ -196,8 +203,8 @@
                 </table>
             </div>
             <div class="copy-buttons">
-                <button class="btn btn-primary btn-sm" onclick="copyFormatted($('.sign-xl .sign').html(), this)">Copy signature to clipboard</button>
-                <button class="btn btn-secondary btn-sm" onclick="copyHTMLToClipboard($('.sign-xl .sign').html(), this)">Copy HTML to clipboard</button>
+                <button class="copy-button btn btn-primary btn-sm" onclick="copyFormatted($('.sign-xl .sign').html(), this)">Copy signature to clipboard</button>
+                <button class="copy-button btn btn-secondary btn-sm" onclick="copyHTMLToClipboard($('.sign-xl .sign').html(), this)">Copy HTML to clipboard</button>
             </div>
         </div>
 
@@ -225,7 +232,7 @@
                             <td height="40"
                                 style="font-family:Helvetica, Arial, sans-serif; font-size:13px; color:#707070;">
                                 <strong class="epfl-unit">EPFL Unit</strong><br>
-                                <a class="office-place" href="https://plan.epfl.ch/" style="font color:#FF0000; text-decoration:underline;"><span
+                                <a class="office-place" href="https://plan.epfl.ch/" style="color:#FF0000; text-decoration:underline;"><span
                                         style="color:#FF0000;">Office place</span></a>
                                 <br>
                                 1015 Lausanne
@@ -236,20 +243,22 @@
                                 style="font-family:Helvetica, Arial, sans-serif; font-size:13px; color:#707070;">
     
                                 Phone: <a class="phone" href="tel:+41216931111"
-                                    style="font color:#FF0000; text-decoration:underline;"><span style="color:#FF0000;">+41
+                                    style="color:#FF0000; text-decoration:underline;"><span style="color:#FF0000;">+41
                                         21 693 11 11</span></a>
-                                <br>
-                                Mobile: <a href="tel:+41790000000"
-                                    style="font color:#FF0000; text-decoration:underline;"><span style="color:#FF0000;">+41
-                                        79 000 00 00</span></a>
+                                <span class="mobile-phone-span">
+                                    <br>
+                                    Mobile:
+                                    <a class="mobile-href" href="tel:+4179XXXXXXX"
+                                        style="color:#FF0000; text-decoration:underline;"><span class="mobile-phone" style="color:#FF0000;">+41 79 XXX XX XX</span></a>
+                                </span>
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
             <div class="copy-buttons">
-                <button class="btn btn-primary btn-sm" onclick="copyFormatted($('.sign-l .sign').html(), this)">Copy signature to clipboard</button>
-                <button class="btn btn-secondary btn-sm" onclick="copyHTMLToClipboard($('.sign-l .sign').html(), this)">Copy HTML to clipboard</button>
+                <button class="copy-button btn btn-primary btn-sm" onclick="copyFormatted($('.sign-l .sign').html(), this)">Copy signature to clipboard</button>
+                <button class="copy-button btn btn-secondary btn-sm" onclick="copyHTMLToClipboard($('.sign-l .sign').html(), this)">Copy HTML to clipboard</button>
             </div>
         </div>
 
@@ -277,8 +286,8 @@
                 </table>
             </div>
             <div class="copy-buttons">
-                <button class="btn btn-primary btn-sm" onclick="copyFormatted($('.sign-m .sign').html(), this)">Copy signature to clipboard</button>
-                <button class="btn btn-secondary btn-sm" onclick="copyHTMLToClipboard($('.sign-m .sign').html(), this)">Copy HTML to clipboard</button>
+                <button class="copy-button btn btn-primary btn-sm" onclick="copyFormatted($('.sign-m .sign').html(), this)">Copy signature to clipboard</button>
+                <button class="copy-button btn btn-secondary btn-sm" onclick="copyHTMLToClipboard($('.sign-m .sign').html(), this)">Copy HTML to clipboard</button>
             </div>
         </div>
 

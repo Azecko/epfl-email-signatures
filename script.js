@@ -3,6 +3,7 @@ function changeHTML(user, accreditation, phoneValue) {
     $('.fonction').html(user.accreds[accreditation].position)
     $('.epfl-unit').html(user.accreds[accreditation].acronym)
     $('.office-place').html(user.accreds[accreditation].officeList[0] || 'Not defined')
+    $('.office-place').attr('href', `https://plan.epfl.ch/?room==${user.accreds[accreditation].officeList[0]}` || `https://plan.epfl.ch`)
     $('.phone').html(user.accreds[accreditation].phoneList[phoneValue].replace(/^(\+\d{2})(\d{2})(\d{3})(\d{2})(\d{2})$/, '$1 $2 $3 $4 $5'))
     $('.phone').attr('href', `tel:${user.accreds[accreditation].phoneList[phoneValue]}`)
     $('.email').html(`${user.profile}@epfl.ch`)
@@ -109,54 +110,16 @@ async function apiCallAutocomplete() {
     });
 }
 
-function copyFormatted (html, button) {
-    var container = document.createElement('div')
-    container.innerHTML = html
-
-    container.style.position = 'fixed'
-    container.style.pointerEvents = 'none'
-    container.style.opacity = 0
-
-    var activeSheets = Array.prototype.slice.call(document.styleSheets)
-      .filter(function (sheet) {
-        return !sheet.disabled
-      })
-    document.body.appendChild(container)
-
-    window.getSelection().removeAllRanges()
-  
-    var range = document.createRange()
-    range.selectNode(container)
-    window.getSelection().addRange(range)
-
-    document.execCommand('copy')
-  
-    for (var i = 0; i < activeSheets.length; i++) activeSheets[i].disabled = true
-
-    document.execCommand('copy')
-
-    for (var i = 0; i < activeSheets.length; i++) activeSheets[i].disabled = false
-
-    document.body.removeChild(container)
-
-    button.textContent = 'Copied !'
-
-    setTimeout(function(){ 
-        button.textContent = 'Copy signature to clipboard'
-    }, 3000);
-}
-
-async function copyHTMLToClipboard(HTML, button) {
-    const css = `
+const css = `
 <style type="text/css">
 
-    a, a:link, a:visited { color:#FF0000; }
+    a, a:link, a:visited { color:#FF0000; text-decoration: underline; }
   
   
-    a:link{color: #FF0000}
-    a:visited{color: #FF0000}
-    a:hover{color: #FF0000}
-    a:active{color: #FF0000}
+    a:link{color: #FF0000; text-decoration: underline !important}
+    a:visited{color: #FF0000; text-decoration: underline !important}
+    a:hover{color: #FF0000; text-decoration: underline !important}
+    a:active{color: #FF0000; text-decoration: underline !important}
     
     /*outlook links visited state fix*/
     span.MsoHyperlink { mso-style-priority:99; color:inherit; }
@@ -196,6 +159,45 @@ async function copyHTMLToClipboard(HTML, button) {
 </style>
 `
 
+function copyFormatted (html, button) {
+    var container = document.createElement('div')
+    container.innerHTML = css + html
+
+    container.style.position = 'fixed'
+    container.style.pointerEvents = 'none'
+    container.style.opacity = 0
+
+    var activeSheets = Array.prototype.slice.call(document.styleSheets)
+      .filter(function (sheet) {
+        return !sheet.disabled
+      })
+    document.body.appendChild(container)
+
+    window.getSelection().removeAllRanges()
+  
+    var range = document.createRange()
+    range.selectNode(container)
+    window.getSelection().addRange(range)
+
+    document.execCommand('copy')
+  
+    for (var i = 0; i < activeSheets.length; i++) activeSheets[i].disabled = true
+
+    document.execCommand('copy')
+
+    for (var i = 0; i < activeSheets.length; i++) activeSheets[i].disabled = false
+
+    document.body.removeChild(container)
+
+    button.textContent = 'Copied !'
+
+    setTimeout(function(){ 
+        button.textContent = 'Copy signature to clipboard'
+    }, 3000);
+}
+
+async function copyHTMLToClipboard(HTML, button) {
+
     await navigator.clipboard.writeText(css + HTML);
 
     button.textContent = 'Copied !'
@@ -212,4 +214,52 @@ $( document ).ready(function() {
         $('#sciper-input').val(sciperParam)
         getPeopleBySciper($('#sciper-input').val())
     }
+
+    $("#edit-button").on("click", function() {
+        let buttonValue = $("#edit-button").html()
+        if(buttonValue == 'Edit') {
+            $("#edit-button").html('Save')
+
+            $('.copy-button').attr('disabled', 'true')
+            
+            if(!$("#mobile-phone-input").val()) {
+                $('#mobile-phone-data').css('display', '')
+            } else {
+                $('.mobile-phone-span').css('display', '')
+            }
+
+            if(!$("#website-displayed").val()) {
+                $('#website-page-data').css('display', '')
+            }
+
+            $("#mobile-phone-data").html(`<br>Mobile : <input id="mobile-phone-input" type="phone" value="${$('#mobile-phone-value').html()}" />`)
+            $("#website-page-data").html(`<br>Link goto : <input id="href-website" type="url" value="${$('#website-a').attr('href')}" /><br>Displayed text : <input id="website-displayed" type="url" value="${$('#website-value').html()}" />`)
+
+
+        } else if(buttonValue == 'Save') {
+            $("#edit-button").html('Edit')
+
+            $('.copy-button').removeAttr('disabled')
+
+            if(!$("#mobile-phone-input").val()) {
+                $('.mobile-phone-span').css('display', 'none')
+            } else {
+                $('.mobile-phone-span').css('display', '')
+            }
+
+            if(!$("#website-displayed").val()) {
+                $('#website-page-data').css('display', 'none')
+            }
+
+            $('.mobile-href').attr('href', `tel:${$("#mobile-phone-input").val()}`)
+            $('.mobile-phone').html($("#mobile-phone-input").val())
+
+            $("#mobile-phone-data").html(`<br>Mobile:
+            <a class="mobile-href" href="tel:${$("#mobile-phone-input").val()}"
+                style="color:#FF0000; text-decoration:underline;"><span id="mobile-phone-value" style="color:#FF0000;">${$("#mobile-phone-input").val()}</span></a>`)
+
+            $("#website-page-data").html(`<br><a id="website-a" href="${$("#href-website").val()}" style="color:#FF0000; text-decoration:underline;"><span
+            id="website-value" style="color:#FF0000;">${$("#website-displayed").val()}</span></a>`)
+        }
+    });
 });

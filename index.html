@@ -24,284 +24,332 @@
 
 </head>
 
+<header role="banner" class="header">
+    <a class="logo" href="#">
+      <img src="favicons/EPFL_Logo_184X53.svg" alt="Logo EPFL, École polytechnique fédérale de Lausanne" class="img-fluid">
+    </a>
+    <ul aria-hidden="true" class="nav-header d-none d-xl-flex">
+      <li id="menu-item-1">
+        <a class="nav-item" href="https://www.epfl.ch/about/fr/">À propos</a>
+      </li>
+      <li id="menu-item-2" class="current-menu-item">
+        <a class="nav-item" href="https://www.epfl.ch/education/fr/">Éducation</a>
+      </li>
+      <li id="menu-item-3">
+        <a class="nav-item" href="https://www.epfl.ch/research/fr/">Recherche</a>
+      </li>
+      <li id="menu-item-4">
+        <a class="nav-item" href="https://www.epfl.ch/innovation/fr/">Innovation</a>
+      </li>
+      <li id="menu-item-5">
+        <a class="nav-item" href="https://www.epfl.ch/schools/fr/">Facultés</a>
+      </li>
+      <li id="menu-item-6">
+        <a class="nav-item" href="https://www.epfl.ch/campus/fr/">Campus</a>
+      </li>
+    </ul>
+  
+    <nav class="nav-lang nav-lang-short ml-auto">
+      <ul>
+        <li>
+          <span class="active" aria-label="Français">FR</span>
+        </li>
+        <li>
+          <a href="#" aria-label="English">EN</a>
+        </li>
+      </ul>
+    </nav>
+    <button class="btn btn-secondary nav-toggle-mobile d-xl-none">
+      <span class="label">Menu</span>
+      <div class="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </button>
+</header>
+
 <body>
-    <script src="script.js"></script>
-    <div class="main-header">
-        <div class="alert alert-danger alert-dismissible fade show d-none" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <h1>EPFL Signatures</h1>
-        <p>This tool is used to generate HTML EPFL signatures using the <a href="https://people.epfl.ch"
-                target="_blank">People</a>'s API for emails.</p>
-        <div class="input-and-btn">
-            <input id="sciper-input" class="form-control" placeholder="Search..."
-            oninput="apiCallAutocomplete()">
-            <button class="btn btn-primary btn-sm" onclick="getPeopleBySciper(document.getElementById('sciper-input').value)">Submit</button>
-        </div>
-        <small><i>Search someone using first name, last name, or sciper. Then click on the "Submit" button</i></small>
+    <div class="epfl-signatures-main">
 
-        <hr>
-
-        <div class="form-group accred-selection d-none">
-            <label>Choose an accreditation</label>
-            <select id="select-accred" class="custom-select"></select>
-        </div>
-
-        <div class="form-group accred-selection-phone d-none">
-            <label>Choose a phone number for this accreditation</label>
-            <select id="select-accred-phone" class="custom-select"></select>
-        </div>
-    </div>
-
-    <hr class="accred-hr d-none">
-
-    <div class="signs">
-        <div class="mb-4">
-            <button id="edit-button" class="btn btn-primary btn-sm">Edit</button>
-        </div>
-        <style type="text/css">
-            .signs a,
-            .signs a:link,
-            .signs a:visited {
-                color: #FF0000;
-            }
-
-
-            .signs a:link {
-                color: #FF0000
-            }
-
-            .signs a:visited {
-                color: #FF0000
-            }
-
-            .signs a:hover {
-                color: #FF0000
-            }
-
-            .signs a:active {
-                color: #FF0000
-            }
-
-            /*outlook links visited state fix*/
-            span.MsoHyperlink {
-                mso-style-priority: 99;
-                color: inherit;
-            }
-
-            span.MsoHyperlinkFollowed {
-                mso-style-priority: 99;
-                color: inherit;
-            }
-
-            a[x-apple-data-detectors] {
-                color: inherit !important;
-                text-decoration: none !important;
-                font-size: inherit !important;
-                font-family: inherit !important;
-                font-weight: inherit !important;
-                line-height: inherit !important;
-            }
-
-            .sign-xl u+#body a {
-                color: inherit !important;
-                text-decoration: none !important;
-                font-size: inherit !important;
-                font-family: inherit !important;
-                font-weight: inherit !important;
-                line-height: inherit !important;
-            }
-
-            #MessageViewBody a {
-                color: inherit !important;
-                text-decoration: none !important;
-                font-size: inherit !important;
-                font-family: inherit !important;
-                font-weight: inherit !important;
-                line-height: inherit !important;
-            }
-
-            .blueLinks a {
-                color: inherit !important;
-                text-decoration: none !important;
-            }
-        </style>
-
-        <div class="sign-xl">
-            <div class="sign">
-
-                <table border="0" cellpadding="0" cellspacing="0" width="500">
-                    <tbody>
-                        <tr>
-                            <td border="0" cellpadding="0" cellspacing="0" height="20" width="60">
-                                <a href="https://www.epfl.ch/"><img src="https://web2018.epfl.ch/6.2.2/icons/epfl-logo.png"
-                                        width="100" alt="EPFL logo"></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td height="50"
-                                style="font-family:Helvetica, Arial, sans-serif; font-size:13px; font-style:bold; color:#707070;">
-                                <strong class="firstname-name">Firstname Name</strong>
-                                <br>
-                                <em class="fonction" style="font-size:13px; font-weight:400;">Fonction</em>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td height="40"
-                                style="font-family:Helvetica, Arial, sans-serif; font-size:13px; color:#707070;">
-                                <strong class="epfl-unit">EPFL Unit</strong><br>
-                                <a class="office-place" href="https://plan.epfl.ch"
-                                    style="color:#FF0000; text-decoration:underline;"><span
-                                        style="color:#FF0000;">Office place</span></a>
-                                <br>
-                                1015 Lausanne
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="hover" height="90"
-                                style="font-family:Helvetica, Arial, sans-serif; font-size:13px; color:#707070;">
+        <script src="script.js"></script>
+        <div class="main-header">
+            <div class="alert alert-danger alert-dismissible fade show d-none" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <h1>EPFL Signatures</h1>
+            <p>This tool is used to generate HTML EPFL signatures using the <a href="https://people.epfl.ch"
+                    target="_blank">People</a>'s API for emails.</p>
+            <div class="input-and-btn">
+                <input id="sciper-input" class="form-control" placeholder="Search..."
+                oninput="apiCallAutocomplete()">
+                <button class="btn btn-primary btn-sm" onclick="getPeopleBySciper(document.getElementById('sciper-input').value)">Submit</button>
+            </div>
+            <small><i>Search someone using first name, last name, or sciper. Then click on the "Submit" button</i></small>
     
-                                Phone: <a class="phone" href="tel:+41216931111"
-                                    style="color:#FF0000; text-decoration:underline;"><span style="color:#FF0000;">+41
-                                        21 693 11 11</span></a>
-                                <span id="mobile-phone-data" class="mobile-phone-span">
-                                    <br>
-                                    Mobile:
-                                    <a class="mobile-href" href="tel:+4179XXXXXXX"
-                                        style="color:#FF0000; text-decoration:underline;"><span id="mobile-phone-value" style="color:#FF0000;">+41 79 XXX XX XX</span></a>
-                                </span>
-                                <br> 
-                                <a class="email" href="mailto:firstname.name@epfl.ch"
-                                    style="color:#FF0000; text-decoration:underline;"><span
-                                        style="color:#FF0000;">firstname.name@epfl.ch</span></a>
-                                <span id="website-page-data">
-                                    <br>
-                                    <a id="website-a" href="https://www.epfl.ch/" style="color:#FF0000; text-decoration:underline;"><span
-                                            id="website-value" style="color:#FF0000;">mypage.epfl.ch</span></a>
-                                </span>
-                                <br>
-                                <a class="people" href="https://www.people.epfl.ch/"
-                                    style="color:#FF0000; text-decoration:underline;"><span
-                                        style="color:#FF0000;">people/firstname.name</span></a>
+            <hr>
     
-                            </td>
-                        </tr>
-                        <tr>
-                        <tr>
-                            <td height="15"
-                                style="font-family:Helvetica, Arial, sans-serif; font-size:13px; color:#707070;">
-                                Follow us on social media
-                            </td>
-                        </tr>
-                        <tr>
-                            <td height="25">
-                                <a href="https://twitter.com/EPFL"><img border=0 width=15px height=15px
-                                        src="https://i.goopics.net/o34N7.png" alt="Image"></a>
-                                <a href="https://www.facebook.com/epflcampus"><img border=0 width=15px height=15px
-                                        src="https://i.goopics.net/avare.png" alt="Image"></a>
-                                <a href="https://www.linkedin.com/school/epfl"><img border=0 width=15px height=15px
-                                        src="https://i.goopics.net/3KEwQ.png" alt="Image"></a>
-                                <a href="https://www.instagram.com/epflcampus"><img border=0 width=15px height=15px
-                                        src="https://i.goopics.net/VZ1rZ.png" alt="Image"></a>
-                                <a href="https://www.youtube.com/user/epflnews"><img border=0 width=15px height=15px
-                                        src="https://i.goopics.net/GLOwK.png" alt="Image"></a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="form-group accred-selection d-none">
+                <label>Choose an accreditation</label>
+                <select id="select-accred" class="custom-select"></select>
             </div>
-            <div class="copy-buttons">
-                <button class="copy-button btn btn-primary btn-sm" onclick="copyFormatted($('.sign-xl .sign').html(), this)">Copy signature to clipboard</button>
-                <button class="copy-button btn btn-secondary btn-sm" onclick="copyHTMLToClipboard($('.sign-xl .sign').html(), this)">Copy HTML to clipboard</button>
-            </div>
-        </div>
-
-        <hr class="bold darker">
-
-        <div class="sign-l">
-            <div class="sign">
-                <table border="0" cellpadding="0" cellspacing="0" width="500">
-                    <tbody>
-                        <tr>
-                            <td border="0" cellpadding="0" cellspacing="0" height="20" width="60">
-                                <a href="https://www.epfl.ch/"><img src="https://web2018.epfl.ch/6.2.2/icons/epfl-logo.png"
-                                        width="100" alt="EPFL logo"></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td height="50"
-                                style="font-family:Helvetica, Arial, sans-serif; font-size:13px; font-style:bold; color:#707070;">
-                                <strong class="firstname-name">Firstname Name</strong>
-                                <br>
-                                <em class="fonction" style="font-size:13px; font-weight:400;">Fonction</em>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td height="40"
-                                style="font-family:Helvetica, Arial, sans-serif; font-size:13px; color:#707070;">
-                                <strong class="epfl-unit">EPFL Unit</strong><br>
-                                <a class="office-place" href="https://plan.epfl.ch/" style="color:#FF0000; text-decoration:underline;"><span
-                                        style="color:#FF0000;">Office place</span></a>
-                                <br>
-                                1015 Lausanne
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="hover" height="50"
-                                style="font-family:Helvetica, Arial, sans-serif; font-size:13px; color:#707070;">
     
-                                Phone: <a class="phone" href="tel:+41216931111"
-                                    style="color:#FF0000; text-decoration:underline;"><span style="color:#FF0000;">+41
-                                        21 693 11 11</span></a>
-                                <span class="mobile-phone-span">
+            <div class="form-group accred-selection-phone d-none">
+                <label>Choose a phone number for this accreditation</label>
+                <select id="select-accred-phone" class="custom-select"></select>
+            </div>
+        </div>
+    
+        <hr class="accred-hr d-none">
+    
+        <div class="signs">
+            <div class="mb-4">
+                <button id="edit-button" class="btn btn-primary btn-sm">Edit</button>
+            </div>
+            <style type="text/css">
+                .signs a,
+                .signs a:link,
+                .signs a:visited {
+                    color: #FF0000;
+                }
+    
+    
+                .signs a:link {
+                    color: #FF0000
+                }
+    
+                .signs a:visited {
+                    color: #FF0000
+                }
+    
+                .signs a:hover {
+                    color: #FF0000
+                }
+    
+                .signs a:active {
+                    color: #FF0000
+                }
+    
+                /*outlook links visited state fix*/
+                span.MsoHyperlink {
+                    mso-style-priority: 99;
+                    color: inherit;
+                }
+    
+                span.MsoHyperlinkFollowed {
+                    mso-style-priority: 99;
+                    color: inherit;
+                }
+    
+                a[x-apple-data-detectors] {
+                    color: inherit !important;
+                    text-decoration: none !important;
+                    font-size: inherit !important;
+                    font-family: inherit !important;
+                    font-weight: inherit !important;
+                    line-height: inherit !important;
+                }
+    
+                .sign-xl u+#body a {
+                    color: inherit !important;
+                    text-decoration: none !important;
+                    font-size: inherit !important;
+                    font-family: inherit !important;
+                    font-weight: inherit !important;
+                    line-height: inherit !important;
+                }
+    
+                #MessageViewBody a {
+                    color: inherit !important;
+                    text-decoration: none !important;
+                    font-size: inherit !important;
+                    font-family: inherit !important;
+                    font-weight: inherit !important;
+                    line-height: inherit !important;
+                }
+    
+                .blueLinks a {
+                    color: inherit !important;
+                    text-decoration: none !important;
+                }
+            </style>
+    
+            <div class="sign-xl">
+                <div class="sign">
+    
+                    <table border="0" cellpadding="0" cellspacing="0" width="500">
+                        <tbody>
+                            <tr>
+                                <td border="0" cellpadding="0" cellspacing="0" height="20" width="60">
+                                    <a href="https://www.epfl.ch/"><img src="https://web2018.epfl.ch/6.2.2/icons/epfl-logo.png"
+                                            width="100" alt="EPFL logo"></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td height="50"
+                                    style="font-family:Helvetica, Arial, sans-serif; font-size:13px; font-style:bold; color:#707070;">
+                                    <strong class="firstname-name">Firstname Name</strong>
                                     <br>
-                                    Mobile:
-                                    <a class="mobile-href" href="tel:+4179XXXXXXX"
-                                        style="color:#FF0000; text-decoration:underline;"><span class="mobile-phone" style="color:#FF0000;">+41 79 XXX XX XX</span></a>
-                                </span>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                                    <em class="fonction" style="font-size:13px; font-weight:400;">Fonction</em>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td height="40"
+                                    style="font-family:Helvetica, Arial, sans-serif; font-size:13px; color:#707070;">
+                                    <strong class="epfl-unit">EPFL Unit</strong><br>
+                                    <a class="office-place" href="https://plan.epfl.ch"
+                                        style="color:#FF0000; text-decoration:underline;"><span
+                                            style="color:#FF0000;">Office place</span></a>
+                                    <br>
+                                    1015 Lausanne
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="hover" height="90"
+                                    style="font-family:Helvetica, Arial, sans-serif; font-size:13px; color:#707070;">
+        
+                                    Phone: <a class="phone" href="tel:+41216931111"
+                                        style="color:#FF0000; text-decoration:underline;"><span style="color:#FF0000;">+41
+                                            21 693 11 11</span></a>
+                                    <span id="mobile-phone-data" class="mobile-phone-span">
+                                        <br>
+                                        Mobile:
+                                        <a class="mobile-href" href="tel:+4179XXXXXXX"
+                                            style="color:#FF0000; text-decoration:underline;"><span id="mobile-phone-value" style="color:#FF0000;">+41 79 XXX XX XX</span></a>
+                                    </span>
+                                    <br> 
+                                    <a class="email" href="mailto:firstname.name@epfl.ch"
+                                        style="color:#FF0000; text-decoration:underline;"><span
+                                            style="color:#FF0000;">firstname.name@epfl.ch</span></a>
+                                    <span id="website-page-data">
+                                        <br>
+                                        <a id="website-a" href="https://www.epfl.ch/" style="color:#FF0000; text-decoration:underline;"><span
+                                                id="website-value" style="color:#FF0000;">mypage.epfl.ch</span></a>
+                                    </span>
+                                    <br>
+                                    <a class="people" href="https://www.people.epfl.ch/"
+                                        style="color:#FF0000; text-decoration:underline;"><span
+                                            style="color:#FF0000;">people/firstname.name</span></a>
+        
+                                </td>
+                            </tr>
+                            <tr>
+                            <tr>
+                                <td height="15"
+                                    style="font-family:Helvetica, Arial, sans-serif; font-size:13px; color:#707070;">
+                                    Follow us on social media
+                                </td>
+                            </tr>
+                            <tr>
+                                <td height="25">
+                                    <a href="https://twitter.com/EPFL"><img border=0 width=15px height=15px
+                                            src="https://i.goopics.net/o34N7.png" alt="Image"></a>
+                                    <a href="https://www.facebook.com/epflcampus"><img border=0 width=15px height=15px
+                                            src="https://i.goopics.net/avare.png" alt="Image"></a>
+                                    <a href="https://www.linkedin.com/school/epfl"><img border=0 width=15px height=15px
+                                            src="https://i.goopics.net/3KEwQ.png" alt="Image"></a>
+                                    <a href="https://www.instagram.com/epflcampus"><img border=0 width=15px height=15px
+                                            src="https://i.goopics.net/VZ1rZ.png" alt="Image"></a>
+                                    <a href="https://www.youtube.com/user/epflnews"><img border=0 width=15px height=15px
+                                            src="https://i.goopics.net/GLOwK.png" alt="Image"></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="copy-buttons">
+                    <button class="copy-button btn btn-primary btn-sm" onclick="copyFormatted($('.sign-xl .sign').html(), this)">Copy signature to clipboard</button>
+                    <button class="copy-button btn btn-secondary btn-sm" onclick="copyHTMLToClipboard($('.sign-xl .sign').html(), this)">Copy HTML to clipboard</button>
+                </div>
             </div>
-            <div class="copy-buttons">
-                <button class="copy-button btn btn-primary btn-sm" onclick="copyFormatted($('.sign-l .sign').html(), this)">Copy signature to clipboard</button>
-                <button class="copy-button btn btn-secondary btn-sm" onclick="copyHTMLToClipboard($('.sign-l .sign').html(), this)">Copy HTML to clipboard</button>
+    
+            <hr class="bold darker">
+    
+            <div class="sign-l">
+                <div class="sign">
+                    <table border="0" cellpadding="0" cellspacing="0" width="500">
+                        <tbody>
+                            <tr>
+                                <td border="0" cellpadding="0" cellspacing="0" height="20" width="60">
+                                    <a href="https://www.epfl.ch/"><img src="https://web2018.epfl.ch/6.2.2/icons/epfl-logo.png"
+                                            width="100" alt="EPFL logo"></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td height="50"
+                                    style="font-family:Helvetica, Arial, sans-serif; font-size:13px; font-style:bold; color:#707070;">
+                                    <strong class="firstname-name">Firstname Name</strong>
+                                    <br>
+                                    <em class="fonction" style="font-size:13px; font-weight:400;">Fonction</em>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td height="40"
+                                    style="font-family:Helvetica, Arial, sans-serif; font-size:13px; color:#707070;">
+                                    <strong class="epfl-unit">EPFL Unit</strong><br>
+                                    <a class="office-place" href="https://plan.epfl.ch/" style="color:#FF0000; text-decoration:underline;"><span
+                                            style="color:#FF0000;">Office place</span></a>
+                                    <br>
+                                    1015 Lausanne
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="hover" height="50"
+                                    style="font-family:Helvetica, Arial, sans-serif; font-size:13px; color:#707070;">
+        
+                                    Phone: <a class="phone" href="tel:+41216931111"
+                                        style="color:#FF0000; text-decoration:underline;"><span style="color:#FF0000;">+41
+                                            21 693 11 11</span></a>
+                                    <span class="mobile-phone-span">
+                                        <br>
+                                        Mobile:
+                                        <a class="mobile-href" href="tel:+4179XXXXXXX"
+                                            style="color:#FF0000; text-decoration:underline;"><span class="mobile-phone" style="color:#FF0000;">+41 79 XXX XX XX</span></a>
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="copy-buttons">
+                    <button class="copy-button btn btn-primary btn-sm" onclick="copyFormatted($('.sign-l .sign').html(), this)">Copy signature to clipboard</button>
+                    <button class="copy-button btn btn-secondary btn-sm" onclick="copyHTMLToClipboard($('.sign-l .sign').html(), this)">Copy HTML to clipboard</button>
+                </div>
             </div>
+    
+            <hr class="bold darker">
+    
+            <div class="sign-m">
+                <div class="sign">
+                    <table border="0" cellpadding="0" cellspacing="0" width="500">
+                        <tbody>
+                            <tr>
+                                <td border="0" cellpadding="0" cellspacing="0" height="20" width="60">
+                                    <a href="https://www.epfl.ch/"><img src="https://web2018.epfl.ch/6.2.2/icons/epfl-logo.png"
+                                            width="100" alt="EPFL logo"></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td height="50"
+                                    style="font-family:Helvetica, Arial, sans-serif; font-size:13px; font-style:bold; color:#707070;">
+                                    <strong class="firstname-name">Firstname Name</strong>
+                                    <br>
+                                    <em class="fonction" style="font-size:13px; font-weight:400;">Fonction</em>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="copy-buttons">
+                    <button class="copy-button btn btn-primary btn-sm" onclick="copyFormatted($('.sign-m .sign').html(), this)">Copy signature to clipboard</button>
+                    <button class="copy-button btn btn-secondary btn-sm" onclick="copyHTMLToClipboard($('.sign-m .sign').html(), this)">Copy HTML to clipboard</button>
+                </div>
+            </div>
+    
+    
         </div>
-
-        <hr class="bold darker">
-
-        <div class="sign-m">
-            <div class="sign">
-                <table border="0" cellpadding="0" cellspacing="0" width="500">
-                    <tbody>
-                        <tr>
-                            <td border="0" cellpadding="0" cellspacing="0" height="20" width="60">
-                                <a href="https://www.epfl.ch/"><img src="https://web2018.epfl.ch/6.2.2/icons/epfl-logo.png"
-                                        width="100" alt="EPFL logo"></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td height="50"
-                                style="font-family:Helvetica, Arial, sans-serif; font-size:13px; font-style:bold; color:#707070;">
-                                <strong class="firstname-name">Firstname Name</strong>
-                                <br>
-                                <em class="fonction" style="font-size:13px; font-weight:400;">Fonction</em>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="copy-buttons">
-                <button class="copy-button btn btn-primary btn-sm" onclick="copyFormatted($('.sign-m .sign').html(), this)">Copy signature to clipboard</button>
-                <button class="copy-button btn btn-secondary btn-sm" onclick="copyHTMLToClipboard($('.sign-m .sign').html(), this)">Copy HTML to clipboard</button>
-            </div>
-        </div>
-
-
     </div>
 </body>
 

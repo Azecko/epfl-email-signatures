@@ -210,6 +210,14 @@ $( document ).ready(function() {
     const urlParams = new URLSearchParams(window.location.search);
     const sciperParam = urlParams.get('q');
 
+    let localStorageObject = JSON.parse(localStorage.getItem('epfl-signatures'))
+    if(!localStorageObject) localStorageObject = {lang: 'en'}
+    localStorage.setItem('epfl-signatures', JSON.stringify(localStorageObject))
+    
+    const langParam = urlParams.get('lang') || localStorageObject.lang
+
+    manageLanguage(`lang-${langParam}`)
+
     if(sciperParam) {
         $('#sciper-input').val(sciperParam)
         getPeopleBySciper($('#sciper-input').val())
@@ -263,3 +271,26 @@ $( document ).ready(function() {
         }
     });
 });
+
+function manageLanguage(langId) {
+    const url = new URL(window.location);
+    if(langId == 'lang-fr') {
+        url.searchParams.set('lang', 'fr')
+        window.history.pushState(null, '', url.toString())
+        $('#lang-en').removeClass('text-primary')
+        $('#lang-fr').addClass('text-primary')
+
+        let localStorageObject = JSON.parse(localStorage.getItem('epfl-signatures'))
+        localStorageObject.lang = 'fr'
+        localStorage.setItem('epfl-signatures', JSON.stringify(localStorageObject))
+    } else if(langId == 'lang-en') {
+        url.searchParams.set('lang', 'en')
+        window.history.pushState(null, '', url.toString())
+        $('#lang-fr').removeClass('text-primary')
+        $('#lang-en').addClass('text-primary')
+
+        let localStorageObject = JSON.parse(localStorage.getItem('epfl-signatures'))
+        localStorageObject.lang = 'en'
+        localStorage.setItem('epfl-signatures', JSON.stringify(localStorageObject))
+    }
+}

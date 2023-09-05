@@ -1,4 +1,4 @@
-function changeHTML(user, accreditation, phoneValue) {
+function changeHTML(user, accreditation, phoneValue, addressData) {
     $('.firstname-name').html(`${user.firstname} ${user.name}`)
     $('.fonction').html(user.accreds[accreditation].position)
     $('.epfl-unit').html(user.accreds[accreditation].acronym)
@@ -10,10 +10,18 @@ function changeHTML(user, accreditation, phoneValue) {
     $('.email').attr('href', `mailto:${user.profile}@epfl.ch`)
     $('.people').html(`people/${user.profile}`)
     $('.people').attr('href', `https://people.epfl.ch/${user.sciper}`)
+
+    if(addressData.accreds[accreditation].fullAddress) {
+        let fullAddressArray = addressData.accreds[accreditation].fullAddress.split('$ ')
+        var result = fullAddressArray.findIndex((value) => { return value.startsWith('CH-');}, 'CH-')
+        $('.postal-code').html(addressData.accreds[accreditation].fullAddress.split('$ ')[result])
+    } else {
+        $('.postal-code').html('CH-1015 Lausanne')
+    }
 }
 
-function generateAndChangeHTML(user, accreditation) {
-    changeHTML(user, accreditation, 0)
+function generateAndChangeHTML(user, accreditation, addressData) {
+    changeHTML(user, accreditation, 0, addressData)
 
     let phone = 0;
     if(user.accreds[accreditation].phoneList.length > 1) {
@@ -35,7 +43,7 @@ function generateAndChangeHTML(user, accreditation) {
         $("#select-accred-phone").change(function(){
             var phoneValue = $(this).find("option:selected").attr("value");
 
-            changeHTML(user, accreditation, phoneValue)
+            changeHTML(user, accreditation, phoneValue, addressData)
             phone = phoneValue;
         });
     } else {
@@ -43,7 +51,7 @@ function generateAndChangeHTML(user, accreditation) {
         phone = 0;
     }
 
-    changeHTML(user, accreditation, phone)
+    changeHTML(user, accreditation, phone, addressData)
 }
 
 function getPeopleBySciper(value) {
@@ -57,40 +65,42 @@ function getPeopleBySciper(value) {
         } else {
             url.searchParams.set('sciper', value)
             window.history.pushState(null, '', url.toString())
-            if(data[0].accreds.length > 1) {
-                $('.accred-selection').removeClass('d-none')
-                $('.accred-hr').removeClass('d-none')
-
-                $('#select-accred').empty()
-
-                generateAndChangeHTML(data[0], 0)
-
-                const accredSelect = document.getElementById('select-accred')
-                for (let i = 0; i < data[0].accreds.length; i++) {
-                    let accred = data[0].accreds[i]
-                    const option = document.createElement('option');
-                    const optionText = document.createTextNode(accred.name)
-
-                    option.appendChild(optionText)
-                    option.setAttribute('value', i)
-
-                    accredSelect.appendChild(option)
+            $.get(`https://search-backend.epfl.ch/api/address?q=${value}`, function( addressData ) {
+                if(data[0].accreds.length > 1) {
+                    $('.accred-selection').removeClass('d-none')
+                    $('.accred-hr').removeClass('d-none')
+    
+                    $('#select-accred').empty()
+    
+                    generateAndChangeHTML(data[0], 0, addressData)
+    
+                    const accredSelect = document.getElementById('select-accred')
+                    for (let i = 0; i < data[0].accreds.length; i++) {
+                        let accred = data[0].accreds[i]
+                        const option = document.createElement('option');
+                        const optionText = document.createTextNode(accred.name)
+    
+                        option.appendChild(optionText)
+                        option.setAttribute('value', i)
+    
+                        accredSelect.appendChild(option)
+                    }
+    
+                    $("#select-accred").change(function(){
+                        var optionValue = $(this).find("option:selected").attr("value");
+    
+                        generateAndChangeHTML(data[0], optionValue, addressData)
+                    });
+    
+                    $('.alert-danger').addClass('d-none')
+    
+                } else {
+                    $('.accred-selection').addClass('d-none')
+                    $('.accred-hr').addClass('d-none')
+                    generateAndChangeHTML(data[0], 0, addressData)
+                    $('.alert-danger').addClass('d-none')
                 }
-
-                $("#select-accred").change(function(){
-                    var optionValue = $(this).find("option:selected").attr("value");
-
-                    generateAndChangeHTML(data[0], optionValue)
-                });
-
-                $('.alert-danger').addClass('d-none')
-
-            } else {
-                $('.accred-selection').addClass('d-none')
-                $('.accred-hr').addClass('d-none')
-                generateAndChangeHTML(data[0], 0)
-                $('.alert-danger').addClass('d-none')
-            }
+            })
         }
     });
 }

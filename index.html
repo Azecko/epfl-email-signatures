@@ -52,10 +52,10 @@
     <nav class="nav-lang nav-lang-short ml-auto">
       <ul>
         <li>
-          <span class="active" aria-label="Français">FR</span>
+          <a onclick="manageLanguage(this.id)" class="lang-a" id="lang-fr" role="button" aria-label="Français">FR</a>
         </li>
         <li>
-          <a href="#" aria-label="English">EN</a>
+          <a onclick="manageLanguage(this.id)" class="lang-a text-primary" id="lang-en" role="button" aria-label="English">EN</a>
         </li>
       </ul>
     </nav>
@@ -80,24 +80,24 @@
                 </button>
             </div>
             <h1>EPFL Signatures</h1>
-            <p>This tool is used to generate HTML EPFL signatures using the <a href="https://people.epfl.ch"
+            <p id="main-description">This tool is used to generate HTML EPFL signatures using the <a href="https://people.epfl.ch"
                     target="_blank">People</a>'s API for emails.</p>
             <div class="input-and-btn">
-                <input id="sciper-input" class="form-control" placeholder="Search..."
+                <input id="sciper-input" class="form-control" placeholder="Vetterli, 107537, ..."
                 oninput="apiCallAutocomplete()">
-                <button class="btn btn-primary btn-sm" onclick="getPeopleBySciper(document.getElementById('sciper-input').value)">Submit</button>
+                <button id="input-search-button" class="btn btn-primary btn-sm" onclick="getPeopleBySciper(document.getElementById('sciper-input').value)">Submit</button>
             </div>
-            <small><i>Search someone using first name, last name, or sciper. Then click on the "Submit" button</i></small>
+            <small><i id="input-search-explain">Search someone using first name, last name, or sciper. Then click on the "Submit" button</i></small>
     
             <hr>
     
             <div class="form-group accred-selection d-none">
-                <label>Choose an accreditation</label>
+                <label id="accreditation-label">Choose an accreditation</label>
                 <select id="select-accred" class="custom-select"></select>
             </div>
     
             <div class="form-group accred-selection-phone d-none">
-                <label>Choose a phone number for this accreditation</label>
+                <label id="accreditation-phone-label">Choose a phone number for this accreditation</label>
                 <select id="select-accred-phone" class="custom-select"></select>
             </div>
         </div>
@@ -106,7 +106,7 @@
     
         <div class="signs">
             <div class="mb-4">
-                <button id="edit-button" class="btn btn-primary btn-sm">Edit</button>
+                <button id="edit-button" class="btn btn-primary btn-sm edit-off">Edit</button>
             </div>
             <style type="text/css">
                 .signs a,
@@ -201,7 +201,7 @@
                                     <strong class="epfl-unit">EPFL Unit</strong><br>
                                     <a class="office-place" href="https://plan.epfl.ch"
                                         style="color:#FF0000; text-decoration:underline;"><span
-                                            style="color:#FF0000;">Office place</span></a>
+                                            class="office-place-value" style="color:#FF0000;">Office place</span></a>
                                     <br>
                                     1015 Lausanne
                                 </td>
@@ -210,7 +210,7 @@
                                 <td class="hover" height="90"
                                     style="font-family:Helvetica, Arial, sans-serif; font-size:13px; color:#707070;">
         
-                                    Phone: <a class="phone" href="tel:+41216931111"
+                                    <span class="phone-span">Phone:</span> <a class="phone" href="tel:+41216931111"
                                         style="color:#FF0000; text-decoration:underline;"><span style="color:#FF0000;">+41
                                             21 693 11 11</span></a>
                                     <span id="mobile-phone-data" class="mobile-phone-span">
@@ -238,7 +238,8 @@
                             <tr>
                             <tr>
                                 <td height="15"
-                                    style="font-family:Helvetica, Arial, sans-serif; font-size:13px; color:#707070;">
+                                    style="font-family:Helvetica, Arial, sans-serif; font-size:13px; color:#707070;"
+                                    id="follow-social-media">
                                     Follow us on social media
                                 </td>
                             </tr>
@@ -260,8 +261,8 @@
                     </table>
                 </div>
                 <div class="copy-buttons">
-                    <button class="copy-button btn btn-primary btn-sm" onclick="copyFormatted($('.sign-xl .sign').html(), this)">Copy signature to clipboard</button>
-                    <button class="copy-button btn btn-secondary btn-sm" onclick="copyHTMLToClipboard($('.sign-xl .sign').html(), this)">Copy HTML to clipboard</button>
+                    <button class="copy-button copy-signature btn btn-primary btn-sm" onclick="copyFormatted($('.sign-xl .sign').html(), this)">Copy signature to clipboard</button>
+                    <button class="copy-button copy-signature-html btn btn-secondary btn-sm" onclick="copyHTMLToClipboard($('.sign-xl .sign').html(), this)">Copy HTML to clipboard</button>
                 </div>
             </div>
     
@@ -299,7 +300,7 @@
                                 <td class="hover" height="50"
                                     style="font-family:Helvetica, Arial, sans-serif; font-size:13px; color:#707070;">
         
-                                    Phone: <a class="phone" href="tel:+41216931111"
+                                    <span class="phone-span">Phone:</span> <a class="phone" href="tel:+41216931111"
                                         style="color:#FF0000; text-decoration:underline;"><span style="color:#FF0000;">+41
                                             21 693 11 11</span></a>
                                     <span class="mobile-phone-span">
@@ -314,8 +315,8 @@
                     </table>
                 </div>
                 <div class="copy-buttons">
-                    <button class="copy-button btn btn-primary btn-sm" onclick="copyFormatted($('.sign-l .sign').html(), this)">Copy signature to clipboard</button>
-                    <button class="copy-button btn btn-secondary btn-sm" onclick="copyHTMLToClipboard($('.sign-l .sign').html(), this)">Copy HTML to clipboard</button>
+                    <button class="copy-button copy-signature btn btn-primary btn-sm" onclick="copyFormatted($('.sign-l .sign').html(), this)">Copy signature to clipboard</button>
+                    <button class="copy-button copy-signature-html btn btn-secondary btn-sm" onclick="copyHTMLToClipboard($('.sign-l .sign').html(), this)">Copy HTML to clipboard</button>
                 </div>
             </div>
     
@@ -343,8 +344,8 @@
                     </table>
                 </div>
                 <div class="copy-buttons">
-                    <button class="copy-button btn btn-primary btn-sm" onclick="copyFormatted($('.sign-m .sign').html(), this)">Copy signature to clipboard</button>
-                    <button class="copy-button btn btn-secondary btn-sm" onclick="copyHTMLToClipboard($('.sign-m .sign').html(), this)">Copy HTML to clipboard</button>
+                    <button class="copy-button copy-signature btn btn-primary btn-sm" onclick="copyFormatted($('.sign-m .sign').html(), this)">Copy signature to clipboard</button>
+                    <button class="copy-button copy-signature-html btn btn-secondary btn-sm" onclick="copyHTMLToClipboard($('.sign-m .sign').html(), this)">Copy HTML to clipboard</button>
                 </div>
             </div>
     

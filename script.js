@@ -1,9 +1,17 @@
 function changeHTML(user, accreditation, phoneValue, addressData) {
+    const url = new URL(window.location)
+    const langParam = url.searchParams.get('lang')
+
     $('.firstname-name').html(`${user.firstname} ${user.name}`)
     $('.fonction').html(user.accreds[accreditation].position)
     $('.epfl-unit').html(user.accreds[accreditation].acronym)
-    $('.office-place').html(user.accreds[accreditation].officeList[0] || 'Not defined')
-    $('.office-place').attr('href', `https://plan.epfl.ch/?room==${user.accreds[accreditation].officeList[0]}` || `https://plan.epfl.ch`)
+    if(!user.accreds[accreditation].officeList[0]) {
+        $('.office-place-value').html(langParam == 'fr' ? 'Non défini' : 'Not defined')
+        $('.office-place').attr('href', `https://plan.epfl.ch`)
+    } else {
+        $('.office-place-value').html(user.accreds[accreditation].officeList[0])
+        $('.office-place').attr('href', `https://plan.epfl.ch/?room==${user.accreds[accreditation].officeList[0]}`)
+    }
     $('.phone').html(user.accreds[accreditation].phoneList[phoneValue].replace(/^(\+\d{2})(\d{2})(\d{3})(\d{2})(\d{2})$/, '$1 $2 $3 $4 $5'))
     $('.phone').attr('href', `tel:${user.accreds[accreditation].phoneList[phoneValue]}`)
     $('.email').html(`${user.profile}@epfl.ch`)
@@ -274,6 +282,8 @@ $( document ).ready(async function() {
                 $('#website-page-data').css('display', '')
             }
 
+            $('#office-place-span').html(`<input id="office-place-input" value="${$('#office-place-check-value').html()}" />`)
+
             $("#mobile-phone-data").html(`<br>Mobile : <input id="mobile-phone-input" type="phone" value="${$('#mobile-phone-value').html()}" />`)
             $("#website-page-data").html(`<br><span id="link-goto">${lang == 'fr' ? 'Lien :' : 'Link goto:'}</span> <input id="href-website" type="url" value="${$('#website-a').attr('href')}" /><br><span id="displayed-text">${lang == 'fr' ? 'Texte affiché :' : 'Displayed text:'}</span> <input id="website-displayed" type="url" value="${$('#website-value').html()}" />`)
 
@@ -302,6 +312,12 @@ $( document ).ready(async function() {
 
             $('.mobile-href').attr('href', `tel:${$("#mobile-phone-input").val()}`)
             $('.mobile-phone').html($("#mobile-phone-input").val())
+
+            $('.office-place-value').html($('#office-place-input').val())
+            $('.office-place').attr('href', `https://plan.epfl.ch/?room==${$('#office-place-input').val()}`)
+            $('#office-place-span').html(`<a class="office-place" href="https://plan.epfl.ch/?room==${$('#office-place-input').val()}"
+            style="color:#FF0000; text-decoration:underline;"><span
+                class="office-place-value" id="office-place-check-value" style="color:#FF0000;">${$('#office-place-input').val()}</span></a>`)
 
             $("#mobile-phone-data").html(`<br>Mobile:
             <a class="mobile-href" href="tel:${$("#mobile-phone-input").val()}"

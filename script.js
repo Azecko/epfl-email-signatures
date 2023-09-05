@@ -121,6 +121,10 @@ async function apiCallAutocomplete() {
 
                 response(stringList)
             })
+        },
+        select: function (event, ui) {
+            let sciper = ui.item.value
+            getPeopleBySciper(sciper)
         }
     });
 }

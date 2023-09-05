@@ -121,7 +121,7 @@ async function apiCallAutocomplete() {
 
                 response(stringList)
             })
-         }
+        }
     });
 }
 

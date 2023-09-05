@@ -217,7 +217,7 @@ async function copyHTMLToClipboard(HTML, button) {
 
 $( document ).ready(async function() {
     const urlParams = new URLSearchParams(window.location.search);
-    const sciperParam = urlParams.get('q');
+    const sciperParam = urlParams.get('sciper');
 
     let localStorageObject = JSON.parse(localStorage.getItem('epfl-signatures'))
     if(!localStorageObject) localStorageObject = {lang: 'en'}

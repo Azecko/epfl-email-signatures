@@ -47,11 +47,16 @@ function generateAndChangeHTML(user, accreditation) {
 }
 
 function getPeopleBySciper(value) {
-    $.get(`https://search-api.epfl.ch/api/ldap?q=${value}`, function( data ) {
+    const url = new URL(window.location)
+    const langParam = url.searchParams.get('lang')
+
+    $.get(`https://search-api.epfl.ch/api/ldap?q=${value}&hl=${langParam}`, function( data ) {
         if(!data.length || data.length >= 2) {
             $('.alert-danger').html('No unique match for this query')
             $('.alert-danger').removeClass('d-none')
         } else {
+            url.searchParams.set('sciper', value)
+            window.history.pushState(null, '', url.toString())
             if(data[0].accreds.length > 1) {
                 $('.accred-selection').removeClass('d-none')
                 $('.accred-hr').removeClass('d-none')
@@ -328,5 +333,10 @@ async function manageLanguage(langId) {
         } else {
             $(`${key}`).html(value)
         }
+    }
+
+    sciperParam = url.searchParams.get('sciper')
+    if(sciperParam) {
+        getPeopleBySciper(url.searchParams.get('sciper'))
     }
 }

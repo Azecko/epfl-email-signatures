@@ -1,0 +1,40 @@
+{
+    "fr": {
+        "#main-description": "Cet outil est utilisé dans le but de générer des signatures HTML pour l'EPFL en utilisant l'API de <a href=\"https://people.epfl.ch\" target=\"_blank\">People</a>",
+        "#input-search-explain": "Rechercher quelqu'un en utilisant son prénom, son nom de famille ou son sciper. Puis cliquer sur le bouton \"Rechercher\"",
+        "#input-search-button": "Rechercher",
+        "#accreditation-label": "Choisir une accréditation",
+        "#accreditation-phone-label": "Choisir un numéro de téléphone pour cette accréditation",
+        ".edit-on": "Sauvegarder",
+        ".edit-off": "Modifier",
+        ".copy-signature": "Copier la signature dans le presse-papiers",
+        ".copy-signature-html": "Copier l'HTML dans le presse-papiers",
+        ".phone-span": "Téléphone :",
+        "#follow-social-media": "Nous suivre sur les réseaux sociaux",
+        "#link-goto": "Lien :",
+        "#displayed-text": "Texte affiché :",
+        ".firstname-name": "Prénom Nom",
+        ".epfl-unit": "Unité EPFL",
+        ".office-place-value": "Bureau",
+        "signature-copied": "Copiée !"
+    },
+    "en": {
+        "#main-description": "This tool is used to generate HTML EPFL signatures using the <a href=\"https://people.epfl.ch\" target=\"_blank\">People</a>'s API for emails.",
+        "#input-search-explain": "Search someone using first name, last name, or sciper. Then click on the \"Submit\" button",
+        "#input-search-button": "Submit",
+        "#accreditation-label": "Choose an accreditation",
+        "#accreditation-phone-label": "Choose a phone number for this accreditation",
+        ".edit-on": "Save",
+        ".edit-off": "Edit",
+        ".copy-signature": "Copy signature to clipboard",
+        ".copy-signature-html": "Copy HTML to clipboard",
+        ".phone-span": "Phone:",
+        "#follow-social-media": "Follow us on social media",
+        "#link-goto": "Link goto:",
+        "#displayed-text": "Displayed text:",
+        ".firstname-name": "Firstname Name",
+        ".epfl-unit": "EPFL Unit",
+        ".office-place-value": "Office place",
+        "signature-copied": "Copied !"
+    }
+}

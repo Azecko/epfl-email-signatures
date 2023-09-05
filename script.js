@@ -79,7 +79,7 @@ function getPeopleBySciper(value) {
                 });
 
                 $('.alert-danger').addClass('d-none')
-                
+
             } else {
                 $('.accred-selection').addClass('d-none')
                 $('.accred-hr').addClass('d-none')
@@ -114,17 +114,17 @@ const css = `
 <style type="text/css">
 
     a, a:link, a:visited { color:#FF0000; text-decoration: underline; }
-  
-  
+
+
     a:link{color: #FF0000; text-decoration: underline !important}
     a:visited{color: #FF0000; text-decoration: underline !important}
     a:hover{color: #FF0000; text-decoration: underline !important}
     a:active{color: #FF0000; text-decoration: underline !important}
-    
+
     /*outlook links visited state fix*/
     span.MsoHyperlink { mso-style-priority:99; color:inherit; }
     span.MsoHyperlinkFollowed { mso-style-priority:99; color:inherit; }
-    
+
     a[x-apple-data-detectors] {
     color: inherit !important;
         text-decoration: none !important;
@@ -133,7 +133,7 @@ const css = `
         font-weight: inherit !important;
         line-height: inherit !important;
     }
-    
+
     u + #body a {
         color: inherit !important;
         text-decoration: none !important;
@@ -150,16 +150,23 @@ const css = `
         font-weight: inherit !important;
         line-height: inherit !important;
     }
-    
-    .blueLinks a { 
-        color:inherit !important; 
-        text-decoration: none !important; 
+
+    .blueLinks a {
+        color:inherit !important;
+        text-decoration: none !important;
     }
-  
+
 </style>
 `
 
-function copyFormatted (html, button) {
+async function copyFormatted (html, button) {
+    const urlParams = new URLSearchParams(window.location.search);
+    const langParam = urlParams.get('lang');
+
+    const langsJSON = await fetch('./langs.json')
+        .then(response => response.json())
+        .then(data => data)
+
     var container = document.createElement('div')
     container.innerHTML = css + html
 
@@ -168,52 +175,53 @@ function copyFormatted (html, button) {
     container.style.opacity = 0
 
     var activeSheets = Array.prototype.slice.call(document.styleSheets)
-      .filter(function (sheet) {
+    .filter(function (sheet) {
         return !sheet.disabled
-      })
+    })
     document.body.appendChild(container)
 
     window.getSelection().removeAllRanges()
-  
     var range = document.createRange()
     range.selectNode(container)
     window.getSelection().addRange(range)
 
     document.execCommand('copy')
-  
-    for (var i = 0; i < activeSheets.length; i++) activeSheets[i].disabled = true
-
     document.execCommand('copy')
 
     for (var i = 0; i < activeSheets.length; i++) activeSheets[i].disabled = false
 
     document.body.removeChild(container)
 
-    button.textContent = 'Copied !'
+    button.textContent = langsJSON[langParam]['signature-copied']
 
-    setTimeout(function(){ 
-        button.textContent = 'Copy signature to clipboard'
+    setTimeout(function(){
+        button.textContent = langsJSON[langParam]['.copy-signature']
     }, 3000);
 }
 
 async function copyHTMLToClipboard(HTML, button) {
+    const urlParams = new URLSearchParams(window.location.search);
+    const langParam = urlParams.get('lang');
+
+    const langsJSON = await fetch('./langs.json')
+        .then(response => response.json())
+        .then(data => data)
 
     await navigator.clipboard.writeText(css + HTML);
 
-    button.textContent = 'Copied !'
-    setTimeout(function(){ 
-        button.textContent = 'Copy HTML to clipboard'
-    }, 3000);  
+    button.textContent = langsJSON[langParam]['signature-copied']
+    setTimeout(function(){
+        button.textContent = langsJSON[langParam]['.copy-signature-html']
+    }, 3000);
 }
 
-$( document ).ready(function() {
+$( document ).ready(async function() {
     const urlParams = new URLSearchParams(window.location.search);
     const sciperParam = urlParams.get('q');
 
     let localStorageObject = JSON.parse(localStorage.getItem('epfl-signatures'))
     if(!localStorageObject) localStorageObject = {lang: 'en'}
     localStorage.setItem('epfl-signatures', JSON.stringify(localStorageObject))
-    
     const langParam = urlParams.get('lang') || localStorageObject.lang
 
     manageLanguage(`lang-${langParam}`)
@@ -224,12 +232,19 @@ $( document ).ready(function() {
     }
 
     $("#edit-button").on("click", function() {
-        let buttonValue = $("#edit-button").html()
-        if(buttonValue == 'Edit') {
-            $("#edit-button").html('Save')
+        const url = new URL(window.location);
+        const lang = url.searchParams.get('lang')
+        if(!$('.copy-button').attr('disabled')) {
+            if(lang == 'fr') {
+                $("#edit-button").html('Sauvegarder')
+            } else if(lang == 'en') {
+                $("#edit-button").html('Save')
+            }
+
+            $("#edit-button").addClass('edit-on')
+            $("#edit-button").removeClass('edit-off')
 
             $('.copy-button').attr('disabled', 'true')
-            
             if(!$("#mobile-phone-input").val()) {
                 $('#mobile-phone-data').css('display', '')
             } else {
@@ -241,11 +256,18 @@ $( document ).ready(function() {
             }
 
             $("#mobile-phone-data").html(`<br>Mobile : <input id="mobile-phone-input" type="phone" value="${$('#mobile-phone-value').html()}" />`)
-            $("#website-page-data").html(`<br>Link goto : <input id="href-website" type="url" value="${$('#website-a').attr('href')}" /><br>Displayed text : <input id="website-displayed" type="url" value="${$('#website-value').html()}" />`)
+            $("#website-page-data").html(`<br><span id="link-goto">${lang == 'fr' ? 'Lien :' : 'Link goto:'}</span> <input id="href-website" type="url" value="${$('#website-a').attr('href')}" /><br><span id="displayed-text">${lang == 'fr' ? 'Texte affiché :' : 'Displayed text:'}</span> <input id="website-displayed" type="url" value="${$('#website-value').html()}" />`)
 
 
-        } else if(buttonValue == 'Save') {
-            $("#edit-button").html('Edit')
+        } else if($('.copy-button').attr('disabled')) {
+            if(lang == 'fr') {
+                $("#edit-button").html('Modifier')
+            } else if(lang == 'en') {
+                $("#edit-button").html('Edit')
+            }
+
+            $("#edit-button").removeClass('edit-on')
+            $("#edit-button").addClass('edit-off')
 
             $('.copy-button').removeAttr('disabled')
 
@@ -272,8 +294,11 @@ $( document ).ready(function() {
     });
 });
 
-function manageLanguage(langId) {
+async function manageLanguage(langId) {
     const url = new URL(window.location);
+    const langsJSON = await fetch('./langs.json')
+        .then(response => response.json())
+        .then(data => data)
     if(langId == 'lang-fr') {
         url.searchParams.set('lang', 'fr')
         window.history.pushState(null, '', url.toString())
@@ -292,5 +317,16 @@ function manageLanguage(langId) {
         let localStorageObject = JSON.parse(localStorage.getItem('epfl-signatures'))
         localStorageObject.lang = 'en'
         localStorage.setItem('epfl-signatures', JSON.stringify(localStorageObject))
+    }
+
+    for (const [key, value] of Object.entries(langsJSON[url.searchParams.get('lang')])) {
+        let wantedLang = url.searchParams.get('lang') == 'fr' ? 'en' : 'fr'
+        if(key == '.firstname-name' || key == '.office-place-value' || key == '.epfl-unit') {
+            if($(key).html() == langsJSON[wantedLang][key]) {
+                $(`${key}`).html(value)
+            }
+        } else {
+            $(`${key}`).html(value)
+        }
     }
 }

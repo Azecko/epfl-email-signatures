@@ -242,9 +242,21 @@ async function copyHTMLToClipboard(HTML, button) {
     }, 3000);
 }
 
+function changeSocialMedias() {
+    const url = new URL(window.location);
+    let socialMediasParam = url.searchParams.get('socialMedias')
+
+    if(socialMediasParam == 'true') {
+        $('.social-medias').removeClass('d-none')
+    } else if(socialMediasParam == 'false') {
+        $('.social-medias').addClass('d-none')
+    }
+}
+
 $( document ).ready(async function() {
     const urlParams = new URLSearchParams(window.location.search);
     const sciperParam = urlParams.get('sciper');
+    const socialMediasParam = urlParams.get('socialMedias')
 
     let localStorageObject = JSON.parse(localStorage.getItem('epfl-signatures'))
     if(!localStorageObject) localStorageObject = {lang: 'en'}
@@ -256,6 +268,11 @@ $( document ).ready(async function() {
     if(sciperParam) {
         $('#sciper-input').val(sciperParam)
         getPeopleBySciper($('#sciper-input').val())
+    }
+
+    if(socialMediasParam == 'true') {
+        $('#social-medias-check').attr('checked', true)
+        changeSocialMedias()
     }
 
     $("#edit-button").on("click", function() {
@@ -327,6 +344,20 @@ $( document ).ready(async function() {
             id="website-value" style="color:#FF0000;">${$("#website-displayed").val()}</span></a>`)
         }
     });
+
+    $('#social-medias-check').change(
+        function(){
+            const url = new URL(window.location);
+            if (this.checked) {
+                url.searchParams.set('socialMedias', true)
+            } else {
+                url.searchParams.set('socialMedias', false)
+            }
+
+            window.history.pushState(null, '', url.toString())
+            changeSocialMedias()
+        }
+    );    
 });
 
 async function manageLanguage(langId) {

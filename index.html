@@ -105,8 +105,12 @@
         <hr class="accred-hr d-none">
     
         <div class="signs">
-            <div class="mb-4">
+            <div class="edit-div">
                 <button id="edit-button" class="btn btn-primary btn-sm edit-off">Edit</button>
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="social-medias-check">
+                    <label id="social-medias-label" class="custom-control-label" for="social-medias-check">Show social medias (big signature)</label>
+                </div>
             </div>
             <style type="text/css">
                 .signs a,
@@ -238,14 +242,14 @@
                                 </td>
                             </tr>
                             <tr>
-                            <tr>
+                            <tr class="social-medias d-none">
                                 <td height="15"
                                     style="font-family:Helvetica, Arial, sans-serif; font-size:13px; color:#707070;"
                                     id="follow-social-media">
                                     Follow us on social media
                                 </td>
                             </tr>
-                            <tr>
+                            <tr class="social-medias d-none">
                                 <td height="25">
                                     <a href="https://twitter.com/EPFL"><img border=0 width=15px height=15px
                                             src="https://epfl-nl-media.sos-ch-gva-2.exo.io/static/images/twitter.png" alt="Image"></a>

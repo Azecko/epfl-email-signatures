@@ -17,7 +17,8 @@
         ".epfl-unit": "Unité EPFL",
         ".office-place-value": "Bureau",
         "signature-copied": "Copiée !",
-        "#social-medias-label": "Afficher les réseaux sociaux (grande signature)"
+        "#social-medias-label": "Afficher les réseaux sociaux (grande signature)",
+        "free-text-area": "<p>Ecrire <strong>ce que vous voulez</strong> pour personnaliser <em>la signature</em></p>"
     },
     "en": {
         "#main-description": "This tool is used to generate HTML EPFL signatures using the <a href=\"https://people.epfl.ch\" target=\"_blank\">People</a>'s API for emails.",
@@ -37,6 +38,7 @@
         ".epfl-unit": "EPFL Unit",
         ".office-place-value": "Office place",
         "signature-copied": "Copied !",
-        "#social-medias-label": "Show social medias (big signature)"
+        "#social-medias-label": "Show social medias (big signature)",
+        "free-text-area": "<p>Write <strong>anything you want</strong> to personalize the <em>signature</em></p>"
     }
 }

@@ -258,6 +258,10 @@ $( document ).ready(async function() {
     const sciperParam = urlParams.get('sciper');
     const socialMediasParam = urlParams.get('socialMedias')
 
+    const langsJSON = await fetch('./langs.json')
+        .then(response => response.json())
+        .then(data => data)
+
     let localStorageObject = JSON.parse(localStorage.getItem('epfl-signatures'))
     if(!localStorageObject) localStorageObject = {lang: 'en'}
     localStorage.setItem('epfl-signatures', JSON.stringify(localStorageObject))
@@ -288,6 +292,8 @@ $( document ).ready(async function() {
             $("#edit-button").addClass('edit-on')
             $("#edit-button").removeClass('edit-off')
 
+            $('#free-area-xl-td').removeClass('d-none')
+
             $('.copy-button').attr('disabled', 'true')
             if(!$("#mobile-phone-input").val()) {
                 $('#mobile-phone-data').css('display', '')
@@ -304,6 +310,14 @@ $( document ).ready(async function() {
             $("#mobile-phone-data").html(`<br>Mobile : <input id="mobile-phone-input" type="phone" value="${$('#mobile-phone-value').html()}" />`)
             $("#website-page-data").html(`<br><span id="link-goto">${lang == 'fr' ? 'Lien :' : 'Link goto:'}</span> <input id="href-website" type="url" value="${$('#website-a').attr('href')}" /><br><span id="displayed-text">${lang == 'fr' ? 'Texte affiché :' : 'Displayed text:'}</span> <input id="website-displayed" type="url" value="${$('#website-value').html()}" />`)
 
+            $('#free-area-xl').html(`<textarea id="tiny">${$('#free-area-xl').html() || langsJSON[lang]['free-text-area']}</textarea>`)
+
+            $('textarea#tiny').tinymce({
+                width: 400,
+                height: 200,
+                menubar: false,
+                toolbar: 'undo redo | bold italic underline'
+            });
 
         } else if($('.copy-button').attr('disabled')) {
             if(lang == 'fr') {
@@ -314,6 +328,14 @@ $( document ).ready(async function() {
 
             $("#edit-button").removeClass('edit-on')
             $("#edit-button").addClass('edit-off')
+
+            $('.free-area').html(tinymce.get('tiny').getContent().replace('<br>', '') == langsJSON[lang]['free-text-area'] ? '' : tinymce.get('tiny').getContent())
+
+            if(!$('#free-area-xl').html()) {
+                $('.free-area-td').addClass('d-none')
+            } else {
+                $('.free-area-td').removeClass('d-none')
+            }
 
             $('.copy-button').removeAttr('disabled')
 
@@ -357,7 +379,7 @@ $( document ).ready(async function() {
             window.history.pushState(null, '', url.toString())
             changeSocialMedias()
         }
-    );    
+    );
 });
 
 async function manageLanguage(langId) {

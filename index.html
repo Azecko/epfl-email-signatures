@@ -13,6 +13,9 @@
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 
+    <script src="https://cdn.tiny.cloud/1/wmjxiuah3w23xv09arvgk6wi1iodyxctsi2qzw1p2zeh95tj/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tinymce/tinymce-jquery@1/dist/tinymce-jquery.min.js"></script>
+
     <link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicons/favicon-16x16.png">
@@ -213,7 +216,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td class="hover" height="90"
+                                <td class="hover" height="50"
                                     style="font-family:Helvetica, Arial, sans-serif; font-size:13px; color:#707070;">
         
                                     <span class="phone-span">Phone:</span> <a class="phone" href="tel:+41216931111"
@@ -225,7 +228,10 @@
                                         <a class="mobile-href" href="tel:+4179XXXXXXX"
                                             style="color:#FF0000; text-decoration:underline;"><span id="mobile-phone-value" style="color:#FF0000;">+41 79 XXX XX XX</span></a>
                                     </span>
-                                    <br> 
+                                </td>
+                            </tr>
+                            <tr>
+                                <td height="70" style="font-family:Helvetica, Arial, sans-serif; font-size:13px; color:#707070;">
                                     <a class="email" href="mailto:firstname.name@epfl.ch"
                                         style="color:#FF0000; text-decoration:underline;"><span
                                             style="color:#FF0000;">firstname.name@epfl.ch</span></a>
@@ -238,10 +244,13 @@
                                     <a class="people" href="https://www.people.epfl.ch/"
                                         style="color:#FF0000; text-decoration:underline;"><span
                                             style="color:#FF0000;">people/firstname.name</span></a>
-        
                                 </td>
                             </tr>
                             <tr>
+                                <td class="free-area-td d-none" id="free-area-xl-td" height="55" style="font-family:Helvetica, Arial, sans-serif; font-size:13px; color:#707070;">
+                                    <span class="free-area" id="free-area-xl"></span>
+                                </td>
+                            </tr>
                             <tr class="social-medias d-none">
                                 <td height="15"
                                     style="font-family:Helvetica, Arial, sans-serif; font-size:13px; color:#707070;"
@@ -317,6 +326,11 @@
                                     </span>
                                 </td>
                             </tr>
+                            <tr>
+                                <td class="free-area-td d-none" height="55" style="font-family:Helvetica, Arial, sans-serif; font-size:13px; color:#707070;">
+                                    <span class="free-area"></span>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -344,6 +358,11 @@
                                     <strong class="firstname-name">Firstname Name</strong>
                                     <br>
                                     <em class="fonction" style="font-size:13px; font-weight:400;">Fonction</em>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="free-area-td d-none" height="55" style="font-family:Helvetica, Arial, sans-serif; font-size:13px; color:#707070;">
+                                    <span class="free-area"></span>
                                 </td>
                             </tr>
                         </tbody>

@@ -253,6 +253,10 @@ function changeSocialMedias() {
     }
 }
 
+function clearInputValue(inputId) {
+    $(`#${inputId}`).val('')
+}
+
 $( document ).ready(async function() {
     const urlParams = new URLSearchParams(window.location.search);
     const sciperParam = urlParams.get('sciper');
@@ -307,8 +311,10 @@ $( document ).ready(async function() {
 
             $('#office-place-span').html(`<input id="office-place-input" value="${$('#office-place-check-value').html()}" />`)
 
-            $("#mobile-phone-data").html(`<br>Mobile : <input id="mobile-phone-input" type="phone" value="${$('#mobile-phone-value').html()}" />`)
-            $("#website-page-data").html(`<br><span id="link-goto">${lang == 'fr' ? 'Lien :' : 'Link goto:'}</span> <input id="href-website" type="url" value="${$('#website-a').attr('href')}" /><br><span id="displayed-text">${lang == 'fr' ? 'Texte affiché :' : 'Displayed text:'}</span> <input id="website-displayed" type="url" value="${$('#website-value').html()}" />`)
+            $("#mobile-phone-data").html(`<br>Mobile : <input id="mobile-phone-input" type="phone" value="${$('#mobile-phone-value').html()}" /> <a class="fa-solid fa-trash" href="javascript:clearInputValue('mobile-phone-input')"></a>`)
+            $("#website-page-data").html(`<br><span id="link-goto">${lang == 'fr' ? 'Lien :' : 'Link goto:'}</span> <input id="href-website" type="url" value="${$('#website-a').attr('href')}" /><br>
+            <span id="displayed-text">${lang == 'fr' ? 'Texte affiché :' : 'Displayed text:'}</span> <input id="website-displayed" type="url" value="${$('#website-value').html()}" /> 
+            <a class="fa-solid fa-trash" href="javascript:clearInputValue('website-displayed'); clearInputValue('href-website')"></a>`)
 
             $('#free-area-xl').html(`<textarea id="tiny">${$('#free-area-xl').html() || langsJSON[lang]['free-text-area']}</textarea>`)
 

@@ -316,7 +316,7 @@ $( document ).ready(async function() {
             <span id="displayed-text">${lang == 'fr' ? 'Texte affiché :' : 'Displayed text:'}</span> <input id="website-displayed" type="url" value="${$('#website-value').html()}" /> 
             <a class="fa-solid fa-trash" href="javascript:clearInputValue('website-displayed'); clearInputValue('href-website')"></a>`)
 
-            $('#free-area-xl').html(`<textarea id="tiny">${$('#free-area-xl').html() || langsJSON[lang]['free-text-area']}</textarea>`)
+            $('#free-area-xl').html(`<textarea id="tiny">${$('#free-area-xl').html() || langsJSON[lang]['free-text-area']}</textarea><br>`)
 
             $('textarea#tiny').tinymce({
                 width: 400,

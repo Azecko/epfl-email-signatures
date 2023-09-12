@@ -415,7 +415,7 @@ async function manageLanguage(langId) {
 
     for (const [key, value] of Object.entries(langsJSON[url.searchParams.get('lang')])) {
         let wantedLang = url.searchParams.get('lang') == 'fr' ? 'en' : 'fr'
-        if(key == '.firstname-name' || key == '.office-place-value' || key == '.epfl-unit') {
+        if(key == '.firstname-name' || key == '.office-place-value' || key == '.epfl-unit' || key == '#big-sign-email' || key == '#people-link' || key == '#website-value') {
             if($(key).html() == langsJSON[wantedLang][key]) {
                 $(`${key}`).html(value)
             }

@@ -319,7 +319,6 @@ $( document ).ready(async function() {
             $('#free-area-xl').html(`<textarea id="tiny">${$('#free-area-xl').html() || langsJSON[lang]['free-text-area']}</textarea><br>`)
 
             $('textarea#tiny').tinymce({
-                width: 400,
                 height: 200,
                 menubar: false,
                 toolbar: 'undo redo | bold italic underline'

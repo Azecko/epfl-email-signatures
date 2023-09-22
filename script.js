@@ -267,9 +267,10 @@ $( document ).ready(async function() {
         .then(data => data)
 
     let localStorageObject = JSON.parse(localStorage.getItem('epfl-signatures'))
-    if(!localStorageObject) localStorageObject = {lang: 'en'}
+    if(!localStorageObject) localStorageObject = {lang: 'en', signatureType: 'basic'}
     localStorage.setItem('epfl-signatures', JSON.stringify(localStorageObject))
     const langParam = urlParams.get('lang') || localStorageObject.lang
+    const signTypeParam = urlParams.get('signatureType') || localStorageObject.signatureType
 
     manageLanguage(`lang-${langParam}`)
 
@@ -278,10 +279,27 @@ $( document ).ready(async function() {
         getPeopleBySciper($('#sciper-input').val())
     }
 
+    if(signTypeParam) {
+        $(`#${signTypeParam}`).attr('checked', true)
+        let localStorageObject = JSON.parse(localStorage.getItem('epfl-signatures'))
+        localStorageObject.signatureType = signTypeParam
+        localStorage.setItem('epfl-signatures', JSON.stringify(localStorageObject))
+    }
+
     if(socialMediasParam == 'true') {
         $('#social-medias-check').attr('checked', true)
         changeSocialMedias()
     }
+
+    $('.signatures-radios').click(function() {
+        const url = new URL(window.location);
+        url.searchParams.set('signatureType', $(this).attr('id'))
+        window.history.pushState(null, '', url.toString())
+
+        let localStorageObject = JSON.parse(localStorage.getItem('epfl-signatures'))
+        localStorageObject.signatureType = $(this).attr('id')
+        localStorage.setItem('epfl-signatures', JSON.stringify(localStorageObject))
+    })
 
     $("#edit-button").on("click", function() {
         const url = new URL(window.location);

@@ -77,8 +77,7 @@
 
 .edit-div {
     display: flex;
-    flex-direction: row;
-    gap: 40px;
+    flex-direction: column;
     margin-bottom: 1.5rem;
-    align-items: center;
+    align-items: start;
 }

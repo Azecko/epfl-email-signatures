@@ -281,9 +281,7 @@ $( document ).ready(async function() {
 
     if(signTypeParam) {
         $(`#${signTypeParam}`).attr('checked', true)
-        let localStorageObject = JSON.parse(localStorage.getItem('epfl-signatures'))
-        localStorageObject.signatureType = signTypeParam
-        localStorage.setItem('epfl-signatures', JSON.stringify(localStorageObject))
+        manageSignType($(`#${signTypeParam}`).attr('id'))
     }
 
     if(socialMediasParam == 'true') {
@@ -292,13 +290,7 @@ $( document ).ready(async function() {
     }
 
     $('.signatures-radios').click(function() {
-        const url = new URL(window.location);
-        url.searchParams.set('signatureType', $(this).attr('id'))
-        window.history.pushState(null, '', url.toString())
-
-        let localStorageObject = JSON.parse(localStorage.getItem('epfl-signatures'))
-        localStorageObject.signatureType = $(this).attr('id')
-        localStorage.setItem('epfl-signatures', JSON.stringify(localStorageObject))
+        manageSignType($(this).attr('id'))
     })
 
     $("#edit-button").on("click", function() {
@@ -404,6 +396,24 @@ $( document ).ready(async function() {
         }
     );
 });
+
+async function manageSignType(signType) {
+    if(signType == 'event') {
+        $('.sign').addClass('d-flex align-items-center')
+        $('.event-sign-img').removeClass('d-none')
+    } else if(signType == 'basic') {
+        $('.sign').removeClass('d-flex align-items-center')
+        $('.event-sign-img').addClass('d-none')
+    }
+
+    const url = new URL(window.location);
+    url.searchParams.set('signatureType', signType)
+    window.history.pushState(null, '', url.toString())
+
+    let localStorageObject = JSON.parse(localStorage.getItem('epfl-signatures'))
+    localStorageObject.signatureType = signType
+    localStorage.setItem('epfl-signatures', JSON.stringify(localStorageObject))
+}
 
 async function manageLanguage(langId) {
     const url = new URL(window.location);

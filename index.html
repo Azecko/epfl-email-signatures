@@ -116,14 +116,14 @@
                 <hr>
                 <div class="custom-control custom-radio">
                     <input type="radio" id="basic" name="signatures-type" class="signatures-radios custom-control-input">
-                    <label class="custom-control-label" for="basic">Basic signature</label>
+                    <label id="basic-label" class="custom-control-label" for="basic">Basic signature</label>
                 </div>
                 <div class="custom-control custom-radio">
                     <input type="radio" id="event" name="signatures-type" class="signatures-radios custom-control-input">
-                    <label class="custom-control-label" for="event">Event signature</label>
+                    <label id="event-label" class="custom-control-label" for="event">Event signature</label>
                 </div>
                 <div id="event-img">
-                    <input id="event-img-src-input" class="form-control" placeholder="Image URL source" oninput="manageImageURL($(this).val())">
+                    <input id="event-img-src-input" class="form-control" placeholder="https://epfl.ch/image.png" oninput="manageImageURL($(this).val())">
                 </div>
             </div>
             <style type="text/css">

@@ -7,8 +7,8 @@
         "#accreditation-phone-label": "Choisir un numéro de téléphone pour cette accréditation",
         ".edit-on": "Sauvegarder",
         ".edit-off": "Modifier",
-        ".copy-signature": "Copier la signature dans le presse-papiers",
-        ".copy-signature-html": "Copier l'HTML dans le presse-papiers",
+        ".copy-signature": "Copier la signature",
+        ".copy-signature-html": "Copier l'HTML",
         ".phone-span": "Téléphone :",
         "#follow-social-media": "Nous suivre sur les réseaux sociaux",
         "#link-goto": "Lien :",
@@ -21,7 +21,9 @@
         "free-text-area": "<p>Ecrire <strong>ce que vous voulez</strong> pour personnaliser <em>la signature</em></p>",
         "#big-sign-email": "prenom.nom@epfl.ch",
         "#website-value": "mapage.epfl.ch",
-        "#people-link": "people/prenom.nom"
+        "#people-link": "people/prenom.nom",
+        "#basic-label": "Signature basique",
+        "#event-label": "Signature évènement"
     },
     "en": {
         "#main-description": "This tool is used to generate HTML EPFL signatures using the <a href=\"https://people.epfl.ch\" target=\"_blank\">People</a>'s API for emails.",
@@ -45,6 +47,8 @@
         "free-text-area": "<p>Write <strong>anything you want</strong> to personalize the <em>signature</em></p>",
         "#big-sign-email": "firstname.name@epfl.ch",
         "#website-value": "mypage.epfl.ch",
-        "#people-link": "people/firstname.name"
+        "#people-link": "people/firstname.name",
+        "#basic-label": "Basic signature",
+        "#event-label": "Event signature"
     }
 }

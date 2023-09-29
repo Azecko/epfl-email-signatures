@@ -414,11 +414,26 @@ async function manageImageURL(url) {
         img.onload = () => {
             $('#event-image').attr('src', url)
             $('.alert-danger').addClass('d-none')
+
+            const { hostname } = new  URL(url)
+            if(!hostname.includes('epfl.ch')) {
+                $('.alert-warning').removeClass('d-none')
+                $('.warning-with-close').html(`If your image is not
+                hosted on the epfl.ch domain, it is possible that
+                some of the collaborators will not be able to see the image in your emails.`)
+            } else {
+                $('.alert-warning').addClass('d-none')
+            }
         }
         img.onerror = () => {
-            $('.danger-with-close').html('Please insert a valid image URL.')
+            if(url) {
+                $('.danger-with-close').html('Please insert a valid image URL.')
+                $('.alert-danger').removeClass('d-none')
+            } else {
+                $('.alert-danger').addClass('d-none')
+            }
             $('#event-image').attr('src', 'favicons/android-chrome-512x512.png')
-            $('.alert-danger').removeClass('d-none')
+            $('.alert-warning').addClass('d-none')
         }
       });
 }

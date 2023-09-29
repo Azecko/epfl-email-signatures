@@ -68,7 +68,7 @@ function getPeopleBySciper(value) {
 
     $.get(`https://search-api.epfl.ch/api/ldap?q=${value}&hl=${langParam}`, function( data ) {
         if(!data.length || data.length >= 2) {
-            $('.alert-danger').html('No unique match for this query')
+            $('.danger-with-close').html('No unique match for this query')
             $('.alert-danger').removeClass('d-none')
         } else {
             url.searchParams.set('sciper', value)
@@ -416,7 +416,7 @@ async function manageImageURL(url) {
             $('.alert-danger').addClass('d-none')
         }
         img.onerror = () => {
-            $('.alert-danger').html('Please insert a valid image URL.')
+            $('.danger-with-close').html('Please insert a valid image URL.')
             $('#event-image').attr('src', 'favicons/android-chrome-512x512.png')
             $('.alert-danger').removeClass('d-none')
         }

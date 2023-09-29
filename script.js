@@ -436,6 +436,10 @@ async function manageSignType(signType) {
             $('.social-medias-event').removeClass('d-none')
             $('.social-medias').addClass('d-none')
         }
+
+        $('.sign-xl').css('gap', '5vw')
+        $('.sign-xl').removeClass('w-500')
+        $('.sign-xl').addClass('w-750')
     } else if(signType == 'basic') {
         $('.sign').removeClass('d-flex align-items-center')
         $('.event-sign-img').addClass('d-none')
@@ -447,6 +451,10 @@ async function manageSignType(signType) {
             $('.social-medias').removeClass('d-none')
             $('.social-medias-event').addClass('d-none')
         }
+
+        $('.sign-xl').css('gap', '20vw')
+        $('.sign-xl').addClass('w-500')
+        $('.sign-xl').removeClass('w-750')
     }
 
     url.searchParams.set('signatureType', signType)

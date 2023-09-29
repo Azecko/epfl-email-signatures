@@ -48,12 +48,18 @@
     flex-direction: row;
     align-items: center;
     justify-content: start;
-    gap: 20vw;
-    min-width: 450px;
+}
+
+@media only screen and (max-width: 750px) {
+    .w-750 {
+      display: block;
+      min-width: none;
+      min-width: 320px;
+    }
 }
 
 @media only screen and (max-width: 500px) {
-    .sign-xl, .sign-l, .sign-m {
+    .w-500 {
       display: block;
       min-width: none;
       min-width: 320px;

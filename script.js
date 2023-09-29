@@ -245,11 +245,20 @@ async function copyHTMLToClipboard(HTML, button) {
 function changeSocialMedias() {
     const url = new URL(window.location);
     let socialMediasParam = url.searchParams.get('socialMedias')
+    let signTypeParam = url.searchParams.get('signatureType')
 
     if(socialMediasParam == 'true') {
-        $('.social-medias').removeClass('d-none')
+        if(signTypeParam == 'event') {
+            $('.social-medias-event').removeClass('d-none')
+        } else {
+            $('.social-medias').removeClass('d-none')
+        }
     } else if(socialMediasParam == 'false') {
-        $('.social-medias').addClass('d-none')
+        if(signTypeParam == 'event') {
+            $('.social-medias-event').addClass('d-none')
+        } else {
+            $('.social-medias').addClass('d-none')
+        }
     }
 }
 
@@ -397,16 +406,49 @@ $( document ).ready(async function() {
     );
 });
 
+async function manageImageURL(url) {
+    new Promise((resolve) => {
+        const img = new Image();
+    
+        img.src = url;
+        img.onload = () => {
+            $('#event-image').attr('src', url)
+            $('.alert-danger').addClass('d-none')
+        }
+        img.onerror = () => {
+            $('.alert-danger').html('Please insert a valid image URL.')
+            $('#event-image').attr('src', 'favicons/android-chrome-512x512.png')
+            $('.alert-danger').removeClass('d-none')
+        }
+      });
+}
+
 async function manageSignType(signType) {
+    const url = new URL(window.location);
+    let socialMediasParam = url.searchParams.get('socialMedias')
     if(signType == 'event') {
         $('.sign').addClass('d-flex align-items-center')
         $('.event-sign-img').removeClass('d-none')
+        $('#event-img').removeClass('d-none')
+        $('.sign-l, .sign-m, .hide-if-event').addClass('d-none')
+        $('.epfl-sign-logo').addClass('d-none')
+        if(socialMediasParam == 'true') {
+            $('.social-medias-event').removeClass('d-none')
+            $('.social-medias').addClass('d-none')
+        }
     } else if(signType == 'basic') {
         $('.sign').removeClass('d-flex align-items-center')
         $('.event-sign-img').addClass('d-none')
+        $('#event-img').addClass('d-none')
+        $('.alert-danger').addClass('d-none')
+        $('.sign-l, .sign-m, .hide-if-event').removeClass('d-none')
+        $('.epfl-sign-logo').removeClass('d-none')
+        if(socialMediasParam == 'true') {
+            $('.social-medias').removeClass('d-none')
+            $('.social-medias-event').addClass('d-none')
+        }
     }
 
-    const url = new URL(window.location);
     url.searchParams.set('signatureType', signType)
     window.history.pushState(null, '', url.toString())
 

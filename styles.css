@@ -7,7 +7,7 @@
     margin-top: 3vh;
 }
 
-.main-header input, .form-group {
+.main-header input, .form-group, #event-img-src-input {
     width: 25vw;
 }
 
@@ -21,7 +21,7 @@
     border-radius: 10px;
 }
 
-#sciper-input, .accred-selection, .accred-selection-phone {
+#sciper-input, .accred-selection, .accred-selection-phone, #event-img-src-input {
     min-width: 220px;
 }
 

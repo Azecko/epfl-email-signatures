@@ -33,7 +33,7 @@ function generateAndChangeHTML(user, accreditation, addressData) {
 
     let phone = 0;
     if(user.accreds[accreditation].phoneList.length > 1) {
-        $('.accred-selection-phone').removeClass('d-none');
+        $('.accred-selection-phone').css('display', '');
         $('#select-accred-phone').empty();
 
         const accredPhoneSelect = document.getElementById('select-accred-phone')
@@ -55,7 +55,7 @@ function generateAndChangeHTML(user, accreditation, addressData) {
             phone = phoneValue;
         });
     } else {
-        $('.accred-selection-phone').addClass('d-none')
+        $('.accred-selection-phone').css('display', 'none')
         phone = 0;
     }
 
@@ -69,14 +69,14 @@ function getPeopleBySciper(value) {
     $.get(`https://search-api.epfl.ch/api/ldap?q=${value}&hl=${langParam}`, function( data ) {
         if(!data.length || data.length >= 2) {
             $('.danger-with-close').html('No unique match for this query')
-            $('.alert-danger').removeClass('d-none')
+            $('.alert-danger').css('display', '')
         } else {
             url.searchParams.set('sciper', value)
             window.history.pushState(null, '', url.toString())
             $.get(`https://search-backend.epfl.ch/api/address?q=${value}`, function( addressData ) {
                 if(data[0].accreds.length > 1) {
-                    $('.accred-selection').removeClass('d-none')
-                    $('.accred-hr').removeClass('d-none')
+                    $('.accred-selection').css('display', '')
+                    $('.accred-hr').css('display', '')
     
                     $('#select-accred').empty()
     
@@ -100,13 +100,13 @@ function getPeopleBySciper(value) {
                         generateAndChangeHTML(data[0], optionValue, addressData)
                     });
     
-                    $('.alert-danger').addClass('d-none')
+                    $('.alert-danger').css('display', 'none')
     
                 } else {
-                    $('.accred-selection').addClass('d-none')
-                    $('.accred-hr').addClass('d-none')
+                    $('.accred-selection').css('display', 'none')
+                    $('.accred-hr').css('display', 'none')
                     generateAndChangeHTML(data[0], 0, addressData)
-                    $('.alert-danger').addClass('d-none')
+                    $('.alert-danger').css('display', 'none')
                 }
             })
         }
@@ -249,15 +249,15 @@ function changeSocialMedias() {
 
     if(socialMediasParam == 'true') {
         if(signTypeParam == 'event') {
-            $('.social-medias-event').removeClass('d-none')
+            $('.social-medias-event').css('display', '')
         } else {
-            $('.social-medias').removeClass('d-none')
+            $('.social-medias').css('display', '')
         }
     } else if(socialMediasParam == 'false') {
         if(signTypeParam == 'event') {
-            $('.social-medias-event').addClass('d-none')
+            $('.social-medias-event').css('display', 'none')
         } else {
-            $('.social-medias').addClass('d-none')
+            $('.social-medias').css('display', 'none')
         }
     }
 }
@@ -320,7 +320,7 @@ $( document ).ready(async function() {
             $("#edit-button").addClass('edit-on')
             $("#edit-button").removeClass('edit-off')
 
-            $('#free-area-xl-td').removeClass('d-none')
+            $('#free-area-xl-td').css('display', '')
 
             $('.copy-button').attr('disabled', 'true')
             if(!$("#mobile-phone-input").val()) {
@@ -361,9 +361,9 @@ $( document ).ready(async function() {
             $('.free-area').html(tinymce.get('tiny').getContent().replace('<br>', '') == langsJSON[lang]['free-text-area'] ? '' : tinymce.get('tiny').getContent())
 
             if(!$('#free-area-xl').html()) {
-                $('.free-area-td').addClass('d-none')
+                $('.free-area-td').css('display', 'none')
             } else {
-                $('.free-area-td').removeClass('d-none')
+                $('.free-area-td').css('display', '')
             }
 
             $('.copy-button').removeAttr('disabled')
@@ -418,27 +418,27 @@ async function manageImageURL(url) {
         img.src = url;
         img.onload = () => {
             $('#event-image').attr('src', url)
-            $('.alert-danger').addClass('d-none')
+            $('.alert-danger').css('display', 'none')
 
             const { hostname } = new  URL(url)
             if(!hostname.includes('epfl.ch')) {
-                $('.alert-warning').removeClass('d-none')
+                $('.alert-warning').css('display', '')
                 $('.warning-with-close').html(`If your image is not
                 hosted on the epfl.ch domain, it is possible that
                 some of the collaborators will not be able to see the image in your emails.`)
             } else {
-                $('.alert-warning').addClass('d-none')
+                $('.alert-warning').css('display', 'none')
             }
         }
         img.onerror = () => {
             if(url) {
                 $('.danger-with-close').html('Please insert a valid image URL.')
-                $('.alert-danger').removeClass('d-none')
+                $('.alert-danger').css('display', '')
             } else {
-                $('.alert-danger').addClass('d-none')
+                $('.alert-danger').css('display', 'none')
             }
             $('#event-image').attr('src', 'favicons/android-chrome-512x512.png')
-            $('.alert-warning').addClass('d-none')
+            $('.alert-warning').css('display', 'none')
         }
       });
 }
@@ -448,13 +448,13 @@ async function manageSignType(signType) {
     let socialMediasParam = url.searchParams.get('socialMedias')
     if(signType == 'event') {
         $('.sign').addClass('d-flex align-items-center')
-        $('.event-sign-img').removeClass('d-none')
-        $('#event-img').removeClass('d-none')
-        $('.sign-l, .sign-m, .hide-if-event').addClass('d-none')
-        $('.epfl-sign-logo').addClass('d-none')
+        $('.event-sign-img').css('display', '')
+        $('#event-img').css('display', '')
+        $('.sign-l, .sign-m, .hide-if-event').css('display', 'none')
+        $('.epfl-sign-logo').css('display', 'none')
         if(socialMediasParam == 'true') {
-            $('.social-medias-event').removeClass('d-none')
-            $('.social-medias').addClass('d-none')
+            $('.social-medias-event').css('display', '')
+            $('.social-medias').css('display', 'none')
         }
 
         $('.sign-xl').css('gap', '5vw')
@@ -462,14 +462,14 @@ async function manageSignType(signType) {
         $('.sign-xl').addClass('w-750')
     } else if(signType == 'basic') {
         $('.sign').removeClass('d-flex align-items-center')
-        $('.event-sign-img').addClass('d-none')
-        $('#event-img').addClass('d-none')
-        $('.alert-danger').addClass('d-none')
-        $('.sign-l, .sign-m, .hide-if-event').removeClass('d-none')
-        $('.epfl-sign-logo').removeClass('d-none')
+        $('.event-sign-img').css('display', 'none')
+        $('#event-img').css('display', 'none')
+        $('.alert-danger').css('display', 'none')
+        $('.sign-l, .sign-m, .hide-if-event').css('display', '')
+        $('.epfl-sign-logo').css('display', '')
         if(socialMediasParam == 'true') {
-            $('.social-medias').removeClass('d-none')
-            $('.social-medias-event').addClass('d-none')
+            $('.social-medias').css('display', '')
+            $('.social-medias-event').css('display', 'none')
         }
 
         $('.sign-xl').css('gap', '20vw')

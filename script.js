@@ -281,16 +281,14 @@ $( document ).ready(async function() {
     const langParam = urlParams.get('lang') || localStorageObject.lang
     const signTypeParam = urlParams.get('signatureType') || localStorageObject.signatureType
 
-    manageLanguage(`lang-${langParam}`)
+    await manageLanguage(`lang-${langParam}`)
+
+    $(`#${signTypeParam}`).attr('checked', true)
+    manageSignType($(`#${signTypeParam}`).attr('id'))
 
     if(sciperParam) {
         $('#sciper-input').val(sciperParam)
         getPeopleBySciper($('#sciper-input').val())
-    }
-
-    if(signTypeParam) {
-        $(`#${signTypeParam}`).attr('checked', true)
-        manageSignType($(`#${signTypeParam}`).attr('id'))
     }
 
     if(socialMediasParam == 'true') {

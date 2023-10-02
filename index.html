@@ -13,7 +13,8 @@
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 
-    <script src="https://cdn.tiny.cloud/1/wmjxiuah3w23xv09arvgk6wi1iodyxctsi2qzw1p2zeh95tj/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.7.0/tinymce.min.js" integrity="sha512-kGk8SWqEKL++Kd6+uNcBT7B8Lne94LjGEMqPS6rpDpeglJf3xpczBSSCmhSEmXfHTnQ7inRXXxKob4ZuJy3WSQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tinymce/tinymce-jquery@1/dist/tinymce-jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
@@ -79,6 +80,13 @@
         <script src="script.js"></script>
         <div class="main-header">
             <div class="alert alert-danger alert-dismissible fade show d-none" role="alert">
+                <span class="danger-with-close"></span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="alert alert-warning alert-dismissible fade show d-none" role="alert">
+                <span class="warning-with-close"></span>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
@@ -105,7 +113,6 @@
                 <select id="select-accred-phone" class="custom-select"></select>
             </div>
         </div>
-    
         <hr class="accred-hr d-none">
     
         <div class="signs">
@@ -113,6 +120,18 @@
                 <div class="custom-control custom-checkbox">
                     <input type="checkbox" class="custom-control-input" id="social-medias-check">
                     <label id="social-medias-label" class="custom-control-label" for="social-medias-check">Show social medias (big signature)</label>
+                </div>
+                <hr>
+                <div class="custom-control custom-radio">
+                    <input type="radio" id="basic" name="signatures-type" class="signatures-radios custom-control-input">
+                    <label id="basic-label" class="custom-control-label" for="basic">Basic signature</label>
+                </div>
+                <div class="custom-control custom-radio">
+                    <input type="radio" id="event" name="signatures-type" class="signatures-radios custom-control-input">
+                    <label id="event-label" class="custom-control-label" for="event">Event signature</label>
+                </div>
+                <div id="event-img">
+                    <input id="event-img-src-input" class="form-control" placeholder="https://epfl.ch/image.png" oninput="manageImageURL($(this).val())">
                 </div>
             </div>
             <style type="text/css">
@@ -183,83 +202,24 @@
                 }
             </style>
     
-            <div class="sign-xl">
+            <div class="sign-xl w-500" style="min-width: 450px; gap: 20vw;">
                 <div class="sign">
-    
-                    <table border="0" cellpadding="0" cellspacing="0" width="250">
-                        <tbody>
-                            <tr>
-                                <td border="0" cellpadding="0" cellspacing="0" height="20" width="60">
-                                    <a href="https://www.epfl.ch/"><img src="https://web2018.epfl.ch/6.2.2/icons/epfl-logo.png"
-                                            width="100" alt="EPFL logo"></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td height="50"
-                                    style="font-family:Helvetica, Arial, sans-serif; font-size:13px; font-style:bold; color:#707070;">
-                                    <strong class="firstname-name">Firstname Name</strong>
-                                    <br>
-                                    <em class="fonction" style="font-size:13px; font-weight:400;">Fonction</em>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td height="40"
-                                    style="font-family:Helvetica, Arial, sans-serif; font-size:13px; color:#707070;">
-                                    <strong class="epfl-unit">EPFL Unit</strong><br>
-                                    <span id="office-place-span">
-                                        <a class="office-place" href="https://plan.epfl.ch"
-                                            style="color:#FF0000; text-decoration:underline;"><span
-                                                class="office-place-value" id="office-place-check-value" style="color:#FF0000;">Office place</span></a>
-                                    </span>
-                                    <br>
-                                    <span class="postal-code">CH-1015 Lausanne</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="hover" height="50"
-                                    style="font-family:Helvetica, Arial, sans-serif; font-size:13px; color:#707070;">
-        
-                                    <span class="phone-span">Phone:</span> <a class="phone" href="tel:+41216931111"
-                                        style="color:#FF0000; text-decoration:underline;"><span style="color:#FF0000;">+41
-                                            21 693 11 11</span></a>
-                                    <span id="mobile-phone-data" class="mobile-phone-span">
-                                        <br>
-                                        Mobile:
-                                        <a class="mobile-href" href="tel:+4179XXXXXXX"
-                                            style="color:#FF0000; text-decoration:underline;"><span id="mobile-phone-value" style="color:#FF0000;">+41 79 XXX XX XX</span></a>
-                                    </span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td height="70" style="font-family:Helvetica, Arial, sans-serif; font-size:13px; color:#707070;">
-                                    <a class="email" href="mailto:firstname.name@epfl.ch"
-                                        style="color:#FF0000; text-decoration:underline;"><span
-                                            id="big-sign-email" style="color:#FF0000;">firstname.name@epfl.ch</span></a>
-                                    <span id="website-page-data">
-                                        <br>
-                                        <a id="website-a" href="https://www.epfl.ch/" style="color:#FF0000; text-decoration:underline;"><span
-                                                id="website-value" style="color:#FF0000;">mypage.epfl.ch</span></a>
-                                    </span>
-                                    <br>
-                                    <a class="people" href="https://www.people.epfl.ch/"
-                                        style="color:#FF0000; text-decoration:underline;"><span
-                                            id="people-link" style="color:#FF0000;">people/firstname.name</span></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="free-area-td d-none" id="free-area-xl-td" height="55" style="font-family:Helvetica, Arial, sans-serif; font-size:13px; color:#707070;">
-                                    <span class="free-area" id="free-area-xl"></span>
-                                </td>
-                            </tr>
-                            <tr class="social-medias d-none">
-                                <td height="15"
+
+                    <table>
+                        <tr>
+                            <td class="event-sign-img d-none" style="margin-right: 500px; border-right: 1px solid grey">
+                                <a href="https://www.epfl.ch/"><img src="https://web2018.epfl.ch/6.2.2/icons/epfl-logo.png"
+                                    width="100" alt="EPFL logo"></a>
+                                <br>
+                                <img id="event-image" src="favicons/android-chrome-512x512.png" alt="" width="250" height="250">
+                                <br>
+                                <span class="social-medias-event d-none" height="15"
                                     style="font-family:Helvetica, Arial, sans-serif; font-size:13px; color:#707070;"
                                     id="follow-social-media">
                                     Follow us on social media
-                                </td>
-                            </tr>
-                            <tr class="social-medias d-none">
-                                <td height="25">
+                                </span>
+                                <br>
+                                <span class="social-medias-event d-none" height="25">
                                     <a href="https://twitter.com/EPFL"><img border=0 width=15px height=15px
                                             src="https://epfl-nl-media.sos-ch-gva-2.exo.io/static/images/twitter.png" alt="Image"></a>
                                     <a href="https://www.facebook.com/epflcampus"><img border=0 width=15px height=15px
@@ -270,10 +230,101 @@
                                             src="https://epfl-nl-media.sos-ch-gva-2.exo.io/static/images/instagram.png" alt="Image"></a>
                                     <a href="https://www.youtube.com/user/epflnews"><img border=0 width=15px height=15px
                                             src="https://epfl-nl-media.sos-ch-gva-2.exo.io/static/images/youtube.png" alt="Image"></a>
-                                </td>
-                            </tr>
-                        </tbody>
+                                </span>
+                            </td>
+                            <td>
+                                <table border="0" cellpadding="0" cellspacing="0" width="250">
+                                    <tbody>
+                                        <tr>
+                                            <td class="epfl-sign-logo" border="0" cellpadding="0" cellspacing="0" height="20" width="60">
+                                                <a href="https://www.epfl.ch/"><img src="https://web2018.epfl.ch/6.2.2/icons/epfl-logo.png"
+                                                        width="100" alt="EPFL logo"></a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td height="50"
+                                                style="font-family:Helvetica, Arial, sans-serif; font-size:13px; font-style:bold; color:#707070;">
+                                                <strong class="firstname-name">Firstname Name</strong>
+                                                <br>
+                                                <em class="fonction" style="font-size:13px; font-weight:400;">Fonction</em>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td height="40"
+                                                style="font-family:Helvetica, Arial, sans-serif; font-size:13px; color:#707070;">
+                                                <strong class="epfl-unit">EPFL Unit</strong><br>
+                                                <span id="office-place-span">
+                                                    <a class="office-place" href="https://plan.epfl.ch"
+                                                        style="color:#FF0000; text-decoration:underline;"><span
+                                                            class="office-place-value" id="office-place-check-value" style="color:#FF0000;">Office place</span></a>
+                                                </span>
+                                                <br>
+                                                <span class="postal-code">CH-1015 Lausanne</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="hover" height="50"
+                                                style="font-family:Helvetica, Arial, sans-serif; font-size:13px; color:#707070;">
+
+                                                <span class="phone-span">Phone:</span> <a class="phone" href="tel:+41216931111"
+                                                    style="color:#FF0000; text-decoration:underline;"><span style="color:#FF0000;">+41
+                                                        21 693 11 11</span></a>
+                                                <span id="mobile-phone-data" class="mobile-phone-span">
+                                                    <br>
+                                                    Mobile:
+                                                    <a class="mobile-href" href="tel:+4179XXXXXXX"
+                                                        style="color:#FF0000; text-decoration:underline;"><span id="mobile-phone-value" style="color:#FF0000;">+41 79 XXX XX XX</span></a>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td height="70" style="font-family:Helvetica, Arial, sans-serif; font-size:13px; color:#707070;">
+                                                <a class="email" href="mailto:firstname.name@epfl.ch"
+                                                    style="color:#FF0000; text-decoration:underline;"><span
+                                                        id="big-sign-email" style="color:#FF0000;">firstname.name@epfl.ch</span></a>
+                                                <span id="website-page-data">
+                                                    <br>
+                                                    <a id="website-a" href="https://www.epfl.ch/" style="color:#FF0000; text-decoration:underline;"><span
+                                                            id="website-value" style="color:#FF0000;">mypage.epfl.ch</span></a>
+                                                </span>
+                                                <br>
+                                                <a class="people" href="https://www.people.epfl.ch/"
+                                                    style="color:#FF0000; text-decoration:underline;"><span
+                                                        id="people-link" style="color:#FF0000;">people/firstname.name</span></a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="free-area-td d-none" id="free-area-xl-td" height="55" style="font-family:Helvetica, Arial, sans-serif; font-size:13px; color:#707070;">
+                                                <span class="free-area" id="free-area-xl"></span>
+                                            </td>
+                                        </tr>
+                                        <tr class="social-medias d-none">
+                                            <td height="15"
+                                                style="font-family:Helvetica, Arial, sans-serif; font-size:13px; color:#707070;"
+                                                id="follow-social-media">
+                                                Follow us on social media
+                                            </td>
+                                        </tr>
+                                        <tr class="social-medias d-none">
+                                            <td height="25">
+                                                <a href="https://twitter.com/EPFL"><img border=0 width=15px height=15px
+                                                        src="https://epfl-nl-media.sos-ch-gva-2.exo.io/static/images/twitter.png" alt="Image"></a>
+                                                <a href="https://www.facebook.com/epflcampus"><img border=0 width=15px height=15px
+                                                        src="https://epfl-nl-media.sos-ch-gva-2.exo.io/static/images/facebook.png" alt="Image"></a>
+                                                <a href="https://www.linkedin.com/school/epfl"><img border=0 width=15px height=15px
+                                                        src="https://epfl-nl-media.sos-ch-gva-2.exo.io/static/images/linkedin.png" alt="Image"></a>
+                                                <a href="https://www.instagram.com/epflcampus"><img border=0 width=15px height=15px
+                                                        src="https://epfl-nl-media.sos-ch-gva-2.exo.io/static/images/instagram.png" alt="Image"></a>
+                                                <a href="https://www.youtube.com/user/epflnews"><img border=0 width=15px height=15px
+                                                        src="https://epfl-nl-media.sos-ch-gva-2.exo.io/static/images/youtube.png" alt="Image"></a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
                     </table>
+                    
                 </div>
                 <div class="copy-buttons">
                     <button id="edit-button" class="fifty-percent-btn btn btn-primary btn-sm edit-off">Edit</button>
@@ -282,10 +333,13 @@
                 </div>
             </div>
     
-            <hr class="bold darker">
+            <hr class="bold darker hide-if-event">
     
-            <div class="sign-l">
+            <div class="sign-l w-500" style="min-width: 450px; gap: 20vw;">
                 <div class="sign">
+
+                    <img class="event-sign-img d-none" src="favicons/android-chrome-512x512.png" alt="" height="250" width="250">
+
                     <table border="0" cellpadding="0" cellspacing="0" width="250">
                         <tbody>
                             <tr>
@@ -341,10 +395,13 @@
                 </div>
             </div>
     
-            <hr class="bold darker">
+            <hr class="bold darker hide-if-event">
     
-            <div class="sign-m">
+            <div class="sign-m w-500" style="min-width: 450px; gap: 20vw;">
                 <div class="sign">
+
+                    <img class="event-sign-img d-none" src="favicons/android-chrome-512x512.png" alt="" height="250" width="250">
+
                     <table border="0" cellpadding="0" cellspacing="0" width="250">
                         <tbody>
                             <tr>

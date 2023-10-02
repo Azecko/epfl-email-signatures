@@ -68,7 +68,7 @@ function getPeopleBySciper(value) {
 
     $.get(`https://search-api.epfl.ch/api/ldap?q=${value}&hl=${langParam}`, function( data ) {
         if(!data.length || data.length >= 2) {
-            $('.alert-danger').html('No unique match for this query')
+            $('.danger-with-close').html('No unique match for this query')
             $('.alert-danger').removeClass('d-none')
         } else {
             url.searchParams.set('sciper', value)
@@ -245,11 +245,20 @@ async function copyHTMLToClipboard(HTML, button) {
 function changeSocialMedias() {
     const url = new URL(window.location);
     let socialMediasParam = url.searchParams.get('socialMedias')
+    let signTypeParam = url.searchParams.get('signatureType')
 
     if(socialMediasParam == 'true') {
-        $('.social-medias').removeClass('d-none')
+        if(signTypeParam == 'event') {
+            $('.social-medias-event').removeClass('d-none')
+        } else {
+            $('.social-medias').removeClass('d-none')
+        }
     } else if(socialMediasParam == 'false') {
-        $('.social-medias').addClass('d-none')
+        if(signTypeParam == 'event') {
+            $('.social-medias-event').addClass('d-none')
+        } else {
+            $('.social-medias').addClass('d-none')
+        }
     }
 }
 
@@ -267,11 +276,15 @@ $( document ).ready(async function() {
         .then(data => data)
 
     let localStorageObject = JSON.parse(localStorage.getItem('epfl-signatures'))
-    if(!localStorageObject) localStorageObject = {lang: 'en'}
+    if(!localStorageObject) localStorageObject = {lang: 'en', signatureType: 'basic'}
     localStorage.setItem('epfl-signatures', JSON.stringify(localStorageObject))
     const langParam = urlParams.get('lang') || localStorageObject.lang
+    const signTypeParam = urlParams.get('signatureType') || localStorageObject.signatureType
 
-    manageLanguage(`lang-${langParam}`)
+    await manageLanguage(`lang-${langParam}`)
+
+    $(`#${signTypeParam}`).attr('checked', true)
+    manageSignType($(`#${signTypeParam}`).attr('id'))
 
     if(sciperParam) {
         $('#sciper-input').val(sciperParam)
@@ -282,6 +295,17 @@ $( document ).ready(async function() {
         $('#social-medias-check').attr('checked', true)
         changeSocialMedias()
     }
+
+    $('.signatures-radios').click(function() {
+        manageSignType($(this).attr('id'))
+    })
+
+    $('#event-image').resizable({
+        stop: function(e,ui) {
+            $('#event-image').attr('width', ui.size.width)
+            $('#event-image').attr('height', ui.size.height)
+        }
+    })
 
     $("#edit-button").on("click", function() {
         const url = new URL(window.location);
@@ -386,6 +410,80 @@ $( document ).ready(async function() {
         }
     );
 });
+
+async function manageImageURL(url) {
+    new Promise((resolve) => {
+        const img = new Image();
+    
+        img.src = url;
+        img.onload = () => {
+            $('#event-image').attr('src', url)
+            $('.alert-danger').addClass('d-none')
+
+            const { hostname } = new  URL(url)
+            if(!hostname.includes('epfl.ch')) {
+                $('.alert-warning').removeClass('d-none')
+                $('.warning-with-close').html(`If your image is not
+                hosted on the epfl.ch domain, it is possible that
+                some of the collaborators will not be able to see the image in your emails.`)
+            } else {
+                $('.alert-warning').addClass('d-none')
+            }
+        }
+        img.onerror = () => {
+            if(url) {
+                $('.danger-with-close').html('Please insert a valid image URL.')
+                $('.alert-danger').removeClass('d-none')
+            } else {
+                $('.alert-danger').addClass('d-none')
+            }
+            $('#event-image').attr('src', 'favicons/android-chrome-512x512.png')
+            $('.alert-warning').addClass('d-none')
+        }
+      });
+}
+
+async function manageSignType(signType) {
+    const url = new URL(window.location);
+    let socialMediasParam = url.searchParams.get('socialMedias')
+    if(signType == 'event') {
+        $('.sign').addClass('d-flex align-items-center')
+        $('.event-sign-img').removeClass('d-none')
+        $('#event-img').removeClass('d-none')
+        $('.sign-l, .sign-m, .hide-if-event').addClass('d-none')
+        $('.epfl-sign-logo').addClass('d-none')
+        if(socialMediasParam == 'true') {
+            $('.social-medias-event').removeClass('d-none')
+            $('.social-medias').addClass('d-none')
+        }
+
+        $('.sign-xl').css('gap', '5vw')
+        $('.sign-xl').removeClass('w-500')
+        $('.sign-xl').addClass('w-750')
+    } else if(signType == 'basic') {
+        $('.sign').removeClass('d-flex align-items-center')
+        $('.event-sign-img').addClass('d-none')
+        $('#event-img').addClass('d-none')
+        $('.alert-danger').addClass('d-none')
+        $('.sign-l, .sign-m, .hide-if-event').removeClass('d-none')
+        $('.epfl-sign-logo').removeClass('d-none')
+        if(socialMediasParam == 'true') {
+            $('.social-medias').removeClass('d-none')
+            $('.social-medias-event').addClass('d-none')
+        }
+
+        $('.sign-xl').css('gap', '20vw')
+        $('.sign-xl').addClass('w-500')
+        $('.sign-xl').removeClass('w-750')
+    }
+
+    url.searchParams.set('signatureType', signType)
+    window.history.pushState(null, '', url.toString())
+
+    let localStorageObject = JSON.parse(localStorage.getItem('epfl-signatures'))
+    localStorageObject.signatureType = signType
+    localStorage.setItem('epfl-signatures', JSON.stringify(localStorageObject))
+}
 
 async function manageLanguage(langId) {
     const url = new URL(window.location);

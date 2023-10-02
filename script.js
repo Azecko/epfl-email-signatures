@@ -300,6 +300,13 @@ $( document ).ready(async function() {
         manageSignType($(this).attr('id'))
     })
 
+    $('#event-image').resizable({
+        stop: function(e,ui) {
+            $('#event-image').attr('width', ui.size.width)
+            $('#event-image').attr('height', ui.size.height)
+        }
+    })
+
     $("#edit-button").on("click", function() {
         const url = new URL(window.location);
         const lang = url.searchParams.get('lang')

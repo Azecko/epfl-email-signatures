@@ -452,6 +452,7 @@ async function manageSignType(signType) {
         $('#event-img').css('display', '')
         $('.sign-l, .sign-m, .hide-if-event').css('display', 'none')
         $('.epfl-sign-logo').css('display', 'none')
+        $('.padding-50-if-event').css('padding-left', '40px')
         if(socialMediasParam == 'true') {
             $('.social-medias-event').css('display', '')
             $('.social-medias').css('display', 'none')
@@ -467,6 +468,7 @@ async function manageSignType(signType) {
         $('.alert-danger').css('display', 'none')
         $('.sign-l, .sign-m, .hide-if-event').css('display', '')
         $('.epfl-sign-logo').css('display', '')
+        $('.padding-50-if-event').css('padding-left', '')
         if(socialMediasParam == 'true') {
             $('.social-medias').css('display', '')
             $('.social-medias-event').css('display', 'none')

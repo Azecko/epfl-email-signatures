@@ -297,7 +297,7 @@ $( document ).ready(async function() {
     }
 
     $('.signatures-radios').click(function() {
-        manageSignType($(this).attr('id'))
+        manageSignType($(this).attr('id'), imageURLParam)
     })
 
     const url = new URL(window.location);

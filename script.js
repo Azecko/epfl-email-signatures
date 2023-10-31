@@ -62,13 +62,17 @@ function generateAndChangeHTML(user, accreditation, addressData) {
     changeHTML(user, accreditation, phone, addressData)
 }
 
-function getPeopleBySciper(value) {
+async function getPeopleBySciper(value) {
     const url = new URL(window.location)
     const langParam = url.searchParams.get('lang')
 
+    const langsJSON = await fetch('./langs.json')
+        .then(response => response.json())
+        .then(data => data)
+
     $.get(`https://search-api.epfl.ch/api/ldap?q=${value}&hl=${langParam}`, function( data ) {
         if(!data.length || data.length >= 2) {
-            $('.danger-with-close-sciper').html('No unique match for this query')
+            $('.danger-with-close-sciper').html(langsJSON[langParam]['.danger-with-close-sciper'])
             $('.alert-sciper').css('display', '')
         } else {
             url.searchParams.set('sciper', value)
@@ -114,7 +118,11 @@ function getPeopleBySciper(value) {
 }
 
 async function apiCallAutocomplete() {
+    const url = new URL(window.location)
     var searchData = document.getElementById("sciper-input").value;
+
+    url.searchParams.set('sciper', searchData)
+    window.history.pushState(null, '', url.toString())
 
     $('#sciper-input').autocomplete({
         minLength: 3,
@@ -297,7 +305,7 @@ $( document ).ready(async function() {
     }
 
     $('.signatures-radios').click(function() {
-        manageSignType($(this).attr('id'))
+        manageSignType($(this).attr('id'), imageURLParam)
     })
 
     const url = new URL(window.location);
@@ -435,6 +443,12 @@ async function manageImageURL(url) {
     urlQuery.searchParams.set('imageURL', url)
     window.history.pushState(null, '', urlQuery.toString())
 
+    const langsJSON = await fetch('./langs.json')
+        .then(response => response.json())
+        .then(data => data)
+
+    const langParam = urlQuery.searchParams.get('lang');
+
     new Promise((resolve) => {
         const img = new Image();
     
@@ -446,16 +460,14 @@ async function manageImageURL(url) {
             const { hostname } = new  URL(url)
             if(!hostname.includes('epfl.ch')) {
                 $('.alert-warning').css('display', '')
-                $('.warning-with-close').html(`If your image is not
-                hosted on the epfl.ch domain, it is possible that
-                some of the collaborators will not be able to see the image in your emails.`)
+                $('.warning-with-close').html(langsJSON[langParam]['.warning-with-close'])
             } else {
                 $('.alert-warning').css('display', 'none')
             }
         }
         img.onerror = () => {
             if(url) {
-                $('.danger-with-close-img').html('Please insert a valid image URL.')
+                $('.danger-with-close-img').html(langsJSON[langParam]['.danger-with-close-img'])
                 $('.alert-img').css('display', '')
             } else {
                 $('.alert-img').css('display', 'none')

@@ -23,7 +23,10 @@
         "#website-value": "mapage.epfl.ch",
         "#people-link": "people/prenom.nom",
         "#basic-label": "Signature basique",
-        "#event-label": "Signature évènement"
+        "#event-label": "Signature évènement",
+        ".warning-with-close": "Si votre image ne se trouve pas sous le domaine de epfl.ch, il y a des chances que certains des collaborateurs ne pourront pas voir votre image dans les e-mails.",
+        ".danger-with-close-sciper": "Pas de trouvaille unique avec cette valeur",
+        ".danger-with-close-img": "Merci d'insérer une URL d'image valide."
     },
     "en": {
         "#main-description": "This tool is used to generate HTML EPFL signatures using the <a href=\"https://people.epfl.ch\" target=\"_blank\">People</a>'s API for emails.",
@@ -49,6 +52,9 @@
         "#website-value": "mypage.epfl.ch",
         "#people-link": "people/firstname.name",
         "#basic-label": "Basic signature",
-        "#event-label": "Event signature"
+        "#event-label": "Event signature",
+        ".warning-with-close": "If your image is not hosted on the epfl.ch domain, it is possible that some of the collaborators will not be able to see the image in your emails.",
+        ".danger-with-close-sciper": "No unique match for this query",
+        ".danger-with-close-img": "Please insert a valid image URL."
     }
 }

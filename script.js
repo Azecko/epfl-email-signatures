@@ -68,8 +68,8 @@ function getPeopleBySciper(value) {
 
     $.get(`https://search-api.epfl.ch/api/ldap?q=${value}&hl=${langParam}`, function( data ) {
         if(!data.length || data.length >= 2) {
-            $('.danger-with-close').html('No unique match for this query')
-            $('.alert-danger').css('display', '')
+            $('.danger-with-close-sciper').html('No unique match for this query')
+            $('.alert-sciper').css('display', '')
         } else {
             url.searchParams.set('sciper', value)
             window.history.pushState(null, '', url.toString())
@@ -100,13 +100,13 @@ function getPeopleBySciper(value) {
                         generateAndChangeHTML(data[0], optionValue, addressData)
                     });
     
-                    $('.alert-danger').css('display', 'none')
+                    $('.alert-sciper').css('display', 'none')
     
                 } else {
                     $('.accred-selection').css('display', 'none')
                     $('.accred-hr').css('display', 'none')
                     generateAndChangeHTML(data[0], 0, addressData)
-                    $('.alert-danger').css('display', 'none')
+                    $('.alert-sciper').css('display', 'none')
                 }
             })
         }
@@ -270,6 +270,9 @@ $( document ).ready(async function() {
     const urlParams = new URLSearchParams(window.location.search);
     const sciperParam = urlParams.get('sciper');
     const socialMediasParam = urlParams.get('socialMedias')
+    const imageURLParam = urlParams.get('imageURL')
+    const widthParam = urlParams.get('imgWidth')
+    const heightParam = urlParams.get('imgHeight')
 
     const langsJSON = await fetch('./langs.json')
         .then(response => response.json())
@@ -282,9 +285,6 @@ $( document ).ready(async function() {
     const signTypeParam = urlParams.get('signatureType') || localStorageObject.signatureType
 
     await manageLanguage(`lang-${langParam}`)
-
-    $(`#${signTypeParam}`).attr('checked', true)
-    manageSignType($(`#${signTypeParam}`).attr('id'))
 
     if(sciperParam) {
         $('#sciper-input').val(sciperParam)
@@ -300,12 +300,31 @@ $( document ).ready(async function() {
         manageSignType($(this).attr('id'))
     })
 
+    const url = new URL(window.location);
     $('#event-image').resizable({
         stop: function(e,ui) {
             $('#event-image').attr('width', ui.size.width)
             $('#event-image').attr('height', ui.size.height)
+
+            url.searchParams.set('imgWidth', ui.size.width)
+            url.searchParams.set('imgHeight', ui.size.height)
+
+            window.history.pushState(null, '', url.toString())
         }
     })
+
+    $(`#${signTypeParam}`).attr('checked', true)
+    manageSignType($(`#${signTypeParam}`).attr('id'), imageURLParam)
+    if(widthParam) {
+        $('#event-image').attr('width', widthParam)
+        $('#event-image').css('width', `${widthParam}px`)
+        $('.ui-wrapper').css('width', `${widthParam}px`)
+    }
+    if(heightParam) {
+        $('#event-image').attr('height', heightParam)
+        $('#event-image').css('height', `${heightParam}px`)
+        $('.ui-wrapper').css('height', `${heightParam}px`)
+    }
 
     $("#edit-button").on("click", function() {
         const url = new URL(window.location);
@@ -412,13 +431,17 @@ $( document ).ready(async function() {
 });
 
 async function manageImageURL(url) {
+    const urlQuery = new URL(window.location);
+    urlQuery.searchParams.set('imageURL', url)
+    window.history.pushState(null, '', urlQuery.toString())
+
     new Promise((resolve) => {
         const img = new Image();
     
         img.src = url;
         img.onload = () => {
             $('#event-image').attr('src', url)
-            $('.alert-danger').css('display', 'none')
+            $('.alert-img').css('display', 'none')
 
             const { hostname } = new  URL(url)
             if(!hostname.includes('epfl.ch')) {
@@ -432,10 +455,10 @@ async function manageImageURL(url) {
         }
         img.onerror = () => {
             if(url) {
-                $('.danger-with-close').html('Please insert a valid image URL.')
-                $('.alert-danger').css('display', '')
+                $('.danger-with-close-img').html('Please insert a valid image URL.')
+                $('.alert-img').css('display', '')
             } else {
-                $('.alert-danger').css('display', 'none')
+                $('.alert-img').css('display', 'none')
             }
             $('#event-image').attr('src', 'favicons/android-chrome-512x512.png')
             $('.alert-warning').css('display', 'none')
@@ -443,7 +466,7 @@ async function manageImageURL(url) {
       });
 }
 
-async function manageSignType(signType) {
+async function manageSignType(signType, imageURL) {
     const url = new URL(window.location);
     let socialMediasParam = url.searchParams.get('socialMedias')
     if(signType == 'event') {
@@ -456,6 +479,11 @@ async function manageSignType(signType) {
         if(socialMediasParam == 'true') {
             $('.social-medias-event').css('display', '')
             $('.social-medias').css('display', 'none')
+        }
+
+        if(imageURL !== null) {
+            $('#event-img-src-input').val(imageURL)
+            manageImageURL(imageURL)
         }
 
         $('.sign-xl').css('gap', '5vw')

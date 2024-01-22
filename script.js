@@ -348,6 +348,9 @@ $( document ).ready(async function() {
             $("#edit-button").removeClass('edit-off')
 
             $('#free-area-xl-td').css('display', '')
+            if(signTypeParam == 'event') {
+                $('#free-area-xl-td-event').css('display', '')
+            }
 
             $('.copy-button').attr('disabled', 'true')
             if(!$("#mobile-phone-input").val()) {
@@ -368,6 +371,15 @@ $( document ).ready(async function() {
             <a class="fa-solid fa-trash" href="javascript:clearInputValue('website-displayed'); clearInputValue('href-website')"></a>`)
 
             $('#free-area-xl').html(`<textarea id="tiny">${$('#free-area-xl').html() || langsJSON[lang]['free-text-area']}</textarea><br>`)
+            if(signTypeParam == 'event') {
+                $('#free-area-xl-event').html(`<textarea id="tiny-event">${$('#free-area-xl-event').html() || langsJSON[lang]['free-text-area']}</textarea><br>`)
+                $('textarea#tiny-event').tinymce({
+                    height: 200,
+                    menubar: false,
+                    plugins: 'link',
+                    toolbar: 'undo redo | bold italic underline | link'
+                });
+            }
 
             $('textarea#tiny').tinymce({
                 height: 200,
@@ -385,12 +397,22 @@ $( document ).ready(async function() {
             $("#edit-button").removeClass('edit-on')
             $("#edit-button").addClass('edit-off')
 
-            $('.free-area').html(tinymce.get('tiny').getContent().replace('<br>', '') == langsJSON[lang]['free-text-area'] ? '' : tinymce.get('tiny').getContent())
+            $('#free-area-xl').html(tinymce.get('tiny').getContent().replace('<br>', '') == langsJSON[lang]['free-text-area'] ? '' : tinymce.get('tiny').getContent())
 
             if(!$('#free-area-xl').html()) {
-                $('.free-area-td').css('display', 'none')
+                $('#free-area-xl-td').css('display', 'none')
             } else {
-                $('.free-area-td').css('display', '')
+                $('#free-area-xl-td').css('display', '')
+            }
+
+            if(signTypeParam == 'event') {
+                $('#free-area-xl-event').html(tinymce.get('tiny-event').getContent().replace('<br>', '') == langsJSON[lang]['free-text-area'] ? '' : tinymce.get('tiny-event').getContent())
+                
+                if(!$('#free-area-xl-event').html()) {
+                    $('#free-area-xl-td-event').css('display', 'none')
+                } else {
+                    $('#free-area-xl-td-event').css('display', '')
+                }
             }
 
             $('.copy-button').removeAttr('disabled')

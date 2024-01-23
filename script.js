@@ -21,8 +21,7 @@ function changeHTML(user, accreditation, phoneValue, addressData) {
 
     if(addressData.accreds[accreditation].fullAddress) {
         let fullAddressArray = addressData.accreds[accreditation].fullAddress.split('$ ')
-        var result = fullAddressArray.findIndex((value) => { return value.startsWith('CH-');}, 'CH-')
-        $('.postal-code').html(addressData.accreds[accreditation].fullAddress.split('$ ')[result])
+        $('.postal-code').html(fullAddressArray.slice(-1)[0])
     } else {
         $('.postal-code').html('CH-1015 Lausanne')
     }

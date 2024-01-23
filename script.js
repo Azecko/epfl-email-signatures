@@ -279,6 +279,7 @@ $( document ).ready(async function() {
     const sciperParam = urlParams.get('sciper');
     const socialMediasParam = urlParams.get('socialMedias')
     const imageURLParam = urlParams.get('imageURL')
+    const imageHrefParam = urlParams.get('imageHref')
     const widthParam = urlParams.get('imgWidth')
     const heightParam = urlParams.get('imgHeight')
 
@@ -305,7 +306,8 @@ $( document ).ready(async function() {
     }
 
     $('.signatures-radios').click(function() {
-        manageSignType($(this).attr('id'), imageURLParam)
+        const updatedUrlParams = new URLSearchParams(window.location.search);
+        manageSignType($(this).attr('id'), updatedUrlParams.get('imageURL'), updatedUrlParams.get('imageHref'))
     })
 
     const url = new URL(window.location);
@@ -322,7 +324,7 @@ $( document ).ready(async function() {
     })
 
     $(`#${signTypeParam}`).attr('checked', true)
-    manageSignType($(`#${signTypeParam}`).attr('id'), imageURLParam)
+    manageSignType($(`#${signTypeParam}`).attr('id'), imageURLParam, imageHrefParam)
     if(widthParam) {
         $('#event-image').attr('width', widthParam)
         $('#event-image').css('width', `${widthParam}px`)
@@ -348,6 +350,9 @@ $( document ).ready(async function() {
             $("#edit-button").removeClass('edit-off')
 
             $('#free-area-xl-td').css('display', '')
+            if(signTypeParam == 'event') {
+                $('#free-area-xl-td-event').css('display', '')
+            }
 
             $('.copy-button').attr('disabled', 'true')
             if(!$("#mobile-phone-input").val()) {
@@ -368,6 +373,15 @@ $( document ).ready(async function() {
             <a class="fa-solid fa-trash" href="javascript:clearInputValue('website-displayed'); clearInputValue('href-website')"></a>`)
 
             $('#free-area-xl').html(`<textarea id="tiny">${$('#free-area-xl').html() || langsJSON[lang]['free-text-area']}</textarea><br>`)
+            if(signTypeParam == 'event') {
+                $('#free-area-xl-event').html(`<textarea id="tiny-event">${$('#free-area-xl-event').html() || langsJSON[lang]['free-text-area']}</textarea><br>`)
+                $('textarea#tiny-event').tinymce({
+                    height: 200,
+                    menubar: false,
+                    plugins: 'link',
+                    toolbar: 'undo redo | bold italic underline | link'
+                });
+            }
 
             $('textarea#tiny').tinymce({
                 height: 200,
@@ -385,12 +399,22 @@ $( document ).ready(async function() {
             $("#edit-button").removeClass('edit-on')
             $("#edit-button").addClass('edit-off')
 
-            $('.free-area').html(tinymce.get('tiny').getContent().replace('<br>', '') == langsJSON[lang]['free-text-area'] ? '' : tinymce.get('tiny').getContent())
+            $('#free-area-xl').html(tinymce.get('tiny').getContent().replace('<br>', '') == langsJSON[lang]['free-text-area'] ? '' : tinymce.get('tiny').getContent())
 
             if(!$('#free-area-xl').html()) {
-                $('.free-area-td').css('display', 'none')
+                $('#free-area-xl-td').css('display', 'none')
             } else {
-                $('.free-area-td').css('display', '')
+                $('#free-area-xl-td').css('display', '')
+            }
+
+            if(signTypeParam == 'event') {
+                $('#free-area-xl-event').html(tinymce.get('tiny-event').getContent().replace('<br>', '') == langsJSON[lang]['free-text-area'] ? '' : tinymce.get('tiny-event').getContent())
+                
+                if(!$('#free-area-xl-event').html()) {
+                    $('#free-area-xl-td-event').css('display', 'none')
+                } else {
+                    $('#free-area-xl-td-event').css('display', '')
+                }
             }
 
             $('.copy-button').removeAttr('disabled')
@@ -438,6 +462,18 @@ $( document ).ready(async function() {
     );
 });
 
+function manageImageHref(url) {
+    const urlQuery = new URL(window.location);
+    urlQuery.searchParams.set('imageHref', url)
+    window.history.pushState(null, '', urlQuery.toString())
+
+    if(!url) {
+        $('#event-image-a').removeAttr('href')
+    } else {
+        $('#event-image-a').attr('href', url)
+    }
+}
+
 async function manageImageURL(url) {
     const urlQuery = new URL(window.location);
     urlQuery.searchParams.set('imageURL', url)
@@ -478,7 +514,7 @@ async function manageImageURL(url) {
       });
 }
 
-async function manageSignType(signType, imageURL) {
+async function manageSignType(signType, imageURL, imageHref) {
     const url = new URL(window.location);
     let socialMediasParam = url.searchParams.get('socialMedias')
     if(signType == 'event') {
@@ -496,6 +532,11 @@ async function manageSignType(signType, imageURL) {
         if(imageURL !== null) {
             $('#event-img-src-input').val(imageURL)
             manageImageURL(imageURL)
+        }
+
+        if(imageHref !== null) {
+            $('#event-img-a-input').val(imageHref)
+            manageImageHref(imageHref)
         }
 
         $('.sign-xl').css('gap', '5vw')

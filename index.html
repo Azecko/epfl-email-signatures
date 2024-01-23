@@ -137,7 +137,14 @@
                     <label id="event-label" class="custom-control-label" for="event">Event signature</label>
                 </div>
                 <div id="event-img">
-                    <input id="event-img-src-input" class="form-control" placeholder="https://epfl.ch/image.png" oninput="manageImageURL($(this).val())">
+                    <div>
+                        <label id="event-img-src-label" for="event-img-src-input">Image link</label>
+                        <input id="event-img-src-input" placeholder="https://epfl.ch/image.png" oninput="manageImageURL($(this).val())">
+                    </div>
+                    <div>
+                        <label id="event-img-a-label" for="event-img-a-input">Image goto</label>
+                        <input id="event-img-a-input" placeholder="https://epfl.ch/" oninput="manageImageHref($(this).val())">
+                    </div>
                 </div>
             </div>
             <style type="text/css">
@@ -217,7 +224,12 @@
                                 <a href="https://www.epfl.ch/"><img src="https://web2018.epfl.ch/6.2.2/icons/epfl-logo.png"
                                     width="100" alt="EPFL logo"></a>
                                 <br>
-                                <img id="event-image" src="favicons/android-chrome-512x512.png" alt="" width="250" height="250">
+                                <a id="event-image-a" href="https://epfl.ch/" target="_blank">
+                                    <img id="event-image" src="favicons/android-chrome-512x512.png" alt="" width="250" height="250">
+                                </a>
+                                <span class="free-area-td" id="free-area-xl-td-event" height="55" style="display: none; font-family:Helvetica, Arial, sans-serif; font-size:13px; color:#707070;">
+                                    <span class="free-area" id="free-area-xl-event"></span>
+                                </span>
                                 <br>
                                 <span class="social-medias-event" height="15"
                                     style="display: none; font-family:Helvetica, Arial, sans-serif; font-size:13px; color:#707070;"

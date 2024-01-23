@@ -279,6 +279,7 @@ $( document ).ready(async function() {
     const sciperParam = urlParams.get('sciper');
     const socialMediasParam = urlParams.get('socialMedias')
     const imageURLParam = urlParams.get('imageURL')
+    const imageHrefParam = urlParams.get('imageHref')
     const widthParam = urlParams.get('imgWidth')
     const heightParam = urlParams.get('imgHeight')
 
@@ -305,7 +306,8 @@ $( document ).ready(async function() {
     }
 
     $('.signatures-radios').click(function() {
-        manageSignType($(this).attr('id'), imageURLParam)
+        const updatedUrlParams = new URLSearchParams(window.location.search);
+        manageSignType($(this).attr('id'), updatedUrlParams.get('imageURL'), updatedUrlParams.get('imageHref'))
     })
 
     const url = new URL(window.location);
@@ -322,7 +324,7 @@ $( document ).ready(async function() {
     })
 
     $(`#${signTypeParam}`).attr('checked', true)
-    manageSignType($(`#${signTypeParam}`).attr('id'), imageURLParam)
+    manageSignType($(`#${signTypeParam}`).attr('id'), imageURLParam, imageHrefParam)
     if(widthParam) {
         $('#event-image').attr('width', widthParam)
         $('#event-image').css('width', `${widthParam}px`)
@@ -460,6 +462,18 @@ $( document ).ready(async function() {
     );
 });
 
+function manageImageHref(url) {
+    const urlQuery = new URL(window.location);
+    urlQuery.searchParams.set('imageHref', url)
+    window.history.pushState(null, '', urlQuery.toString())
+
+    if(!url) {
+        $('#event-image-a').removeAttr('href')
+    } else {
+        $('#event-image-a').attr('href', url)
+    }
+}
+
 async function manageImageURL(url) {
     const urlQuery = new URL(window.location);
     urlQuery.searchParams.set('imageURL', url)
@@ -500,7 +514,7 @@ async function manageImageURL(url) {
       });
 }
 
-async function manageSignType(signType, imageURL) {
+async function manageSignType(signType, imageURL, imageHref) {
     const url = new URL(window.location);
     let socialMediasParam = url.searchParams.get('socialMedias')
     if(signType == 'event') {
@@ -518,6 +532,11 @@ async function manageSignType(signType, imageURL) {
         if(imageURL !== null) {
             $('#event-img-src-input').val(imageURL)
             manageImageURL(imageURL)
+        }
+
+        if(imageHref !== null) {
+            $('#event-img-a-input').val(imageHref)
+            manageImageHref(imageHref)
         }
 
         $('.sign-xl').css('gap', '5vw')

@@ -5,15 +5,20 @@ function changeHTML(user, accreditation, phoneValue, addressData) {
     $('.firstname-name').html(`${user.firstname} ${user.name}`)
     $('.fonction').html(user.accreds[accreditation].position)
     $('.epfl-unit').html(user.accreds[accreditation].acronym)
-    if(!user.accreds[accreditation].officeList[0]) {
+    if(!user.accreds[accreditation].officeList || !user.accreds[accreditation].officeList[0]) {
         $('.office-place-value').html(langParam == 'fr' ? 'Non défini' : 'Not defined')
         $('.office-place').attr('href', `https://plan.epfl.ch`)
     } else {
         $('.office-place-value').html(user.accreds[accreditation].officeList[0])
         $('.office-place').attr('href', `https://plan.epfl.ch/?room==${user.accreds[accreditation].officeList[0]}`)
     }
-    $('.phone').html(user.accreds[accreditation].phoneList[phoneValue].replace(/^(\+\d{2})(\d{2})(\d{3})(\d{2})(\d{2})$/, '$1 $2 $3 $4 $5'))
-    $('.phone').attr('href', `tel:${user.accreds[accreditation].phoneList[phoneValue]}`)
+    if(user.accreds[accreditation].phoneList.length > 0) {
+        $('.phone').html(user.accreds[accreditation].phoneList[phoneValue].replace(/^(\+\d{2})(\d{2})(\d{3})(\d{2})(\d{2})$/, '$1 $2 $3 $4 $5'))
+        $('.phone').attr('href', `tel:${user.accreds[accreditation].phoneList[phoneValue]}`)
+    } else {
+        $('.phone').html('+41 21 693 11 11')
+        $('.phone').attr('href', `tel:+41216931111`)
+    }
     $('.email').html(`${user.profile}@epfl.ch`)
     $('.email').attr('href', `mailto:${user.profile}@epfl.ch`)
     $('.people').html(`people/${user.profile}`)
@@ -96,6 +101,8 @@ async function getPeopleBySciper(value) {
     
                         accredSelect.appendChild(option)
                     }
+
+                    $("#select-accred").off('change');
     
                     $("#select-accred").change(function(){
                         var optionValue = $(this).find("option:selected").attr("value");

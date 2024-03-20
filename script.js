@@ -5,12 +5,33 @@ function changeHTML(user, accreditation, phoneValue, addressData) {
     $('.firstname-name').html(`${user.firstname} ${user.name}`)
     $('.fonction').html(user.accreds[accreditation].position)
     $('.epfl-unit').html(user.accreds[accreditation].acronym)
+
+    if(!addressData.accreds[accreditation].postOfficeBox) {
+        $('.post-office-box').css('display', 'none')
+        $('.post-office-box').html('Not defined')
+    } else {
+        $('.post-office-box').html(`${addressData.accreds[accreditation].postOfficeBox},`)
+        $('.post-office-box').css('display', '')
+    }
+
+    const fullAddressSplit = addressData.accreds[accreditation].fullAddress?.split('$')
+
+    if(!fullAddressSplit) {
+        $('.full-office-place-value').html(langParam == 'fr' ? 'Non défini' : 'Not defined')
+    } else {
+        $('.full-office-place-value').html(fullAddressSplit[1])
+    }
+
     if(!user.accreds[accreditation].officeList || !user.accreds[accreditation].officeList[0]) {
         $('.office-place-value').html(langParam == 'fr' ? 'Non défini' : 'Not defined')
         $('.office-place').attr('href', `https://plan.epfl.ch`)
+
+        $('.full-office-place').attr('href', `https://plan.epfl.ch`)
     } else {
         $('.office-place-value').html(user.accreds[accreditation].officeList[0])
         $('.office-place').attr('href', `https://plan.epfl.ch/?room==${user.accreds[accreditation].officeList[0]}`)
+
+        $('.full-office-place').attr('href', `https://plan.epfl.ch/?room==${user.accreds[accreditation].officeList[0]}`)
     }
     if(user.accreds[accreditation].phoneList.length > 0) {
         $('.phone').html(user.accreds[accreditation].phoneList[phoneValue].replace(/^(\+\d{2})(\d{2})(\d{3})(\d{2})(\d{2})$/, '$1 $2 $3 $4 $5'))
@@ -276,6 +297,23 @@ function changeSocialMedias() {
     }
 }
 
+function changeAddressType() {
+    const url = new URL(window.location);
+    let addressTypeParam = url.searchParams.get('addressType')
+
+    if(addressTypeParam == 'full') {
+        $('.post-office-box').css('display', '')
+
+        $('.full-office-place').css('display', '')
+        $('.office-place').css('display', 'none')
+    } else if(addressTypeParam == 'partial') {
+        $('.post-office-box').css('display', 'none')
+
+        $('.full-office-place').css('display', 'none')
+        $('.office-place').css('display', '')
+    }
+}
+
 function clearInputValue(inputId) {
     $(`#${inputId}`).val('')
 }
@@ -284,6 +322,7 @@ $( document ).ready(async function() {
     const urlParams = new URLSearchParams(window.location.search);
     const sciperParam = urlParams.get('sciper');
     const socialMediasParam = urlParams.get('socialMedias')
+    const addressTypeParam = urlParams.get('addressType')
     const imageURLParam = urlParams.get('imageURL')
     const imageHrefParam = urlParams.get('imageHref')
     const widthParam = urlParams.get('imgWidth')
@@ -309,6 +348,11 @@ $( document ).ready(async function() {
     if(socialMediasParam == 'true') {
         $('#social-medias-check').attr('checked', true)
         changeSocialMedias()
+    }
+
+    if(addressTypeParam == 'full') {
+        $('#address-type-check').attr('checked', true)
+        changeAddressType()
     }
 
     $('.signatures-radios').click(function() {
@@ -345,6 +389,8 @@ $( document ).ready(async function() {
     $("#edit-button").on("click", function() {
         const url = new URL(window.location);
         const lang = url.searchParams.get('lang')
+        const addressType = url.searchParams.get('addressType')
+
         if(!$('.copy-button').attr('disabled')) {
             if(lang == 'fr') {
                 $("#edit-button").html('Sauvegarder')
@@ -371,7 +417,11 @@ $( document ).ready(async function() {
                 $('#website-page-data').css('display', '')
             }
 
-            $('#office-place-span').html(`<input id="office-place-input" value="${$('#office-place-check-value').html()}" />`)
+            if(addressType == 'full') {
+                $('#office-place-span').html(`<input id="office-place-input" value="${$('#full-office-place-check-value').html()}" />`)
+            } else {
+                $('#office-place-span').html(`<input id="office-place-input" value="${$('#office-place-check-value').html()}" />`)
+            }
 
             $("#mobile-phone-data").html(`<br>Mobile : <input id="mobile-phone-input" type="phone" value="${$('#mobile-phone-value').html()}" /> <a class="fa-solid fa-trash" href="javascript:clearInputValue('mobile-phone-input')"></a>`)
             $("#website-page-data").html(`<br><span id="link-goto">${lang == 'fr' ? 'Lien :' : 'Link goto:'}</span> <input id="href-website" type="url" value="${$('#website-a').attr('href')}" /><br>
@@ -439,10 +489,26 @@ $( document ).ready(async function() {
             $('.mobile-phone').html($("#mobile-phone-input").val())
 
             $('.office-place-value').html($('#office-place-input').val())
+            $('.full-office-place-value').html($('#office-place-input').val())
+
             $('.office-place').attr('href', `https://plan.epfl.ch/?room==${$('#office-place-input').val()}`)
-            $('#office-place-span').html(`<a class="office-place" href="https://plan.epfl.ch/?room==${$('#office-place-input').val()}"
-            style="color:#FF0000; text-decoration:underline;"><span
-                class="office-place-value" id="office-place-check-value" style="color:#FF0000;">${$('#office-place-input').val()}</span></a>`)
+            $('.full-office-place').attr('href', `https://plan.epfl.ch/?room==${$('#office-place-input').val()}`)
+
+            if(addressType == 'full') {
+                $('#office-place-span').html(`<a class="office-place" href="https://plan.epfl.ch/?room==${$('#office-place-input').val()}"
+                style="color:#FF0000; text-decoration:underline; display: none;"><span
+                class="office-place-value" id="office-place-check-value" style="color:#FF0000;">${$('#office-place-input').val()}</span></a>
+                <a class="full-office-place" href="https://plan.epfl.ch/?room==${$('#office-place-input').val()}"
+                style="color:#FF0000; text-decoration:underline;"><span
+                class="full-office-place-value" id="full-office-place-check-value" style="color:#FF0000;">${$('#office-place-input').val()}</span></a>`)
+            } else {
+                $('#office-place-span').html(`<a class="office-place" href="https://plan.epfl.ch/?room==${$('#office-place-input').val()}"
+                style="color:#FF0000; text-decoration:underline;"><span
+                class="office-place-value" id="office-place-check-value" style="color:#FF0000;">${$('#office-place-input').val()}</span></a>
+                <a class="full-office-place" href="https://plan.epfl.ch/?room==${$('#office-place-input').val()}"
+                style="color:#FF0000; text-decoration:underline; display: none;"><span
+                class="full-office-place-value" id="full-office-place-check-value" style="color:#FF0000;">${$('#office-place-input').val()}</span></a>`)
+            }
 
             $("#mobile-phone-data").html(`<br>Mobile:
             <a class="mobile-href" href="tel:${$("#mobile-phone-input").val()}"
@@ -464,6 +530,20 @@ $( document ).ready(async function() {
 
             window.history.pushState(null, '', url.toString())
             changeSocialMedias()
+        }
+    );
+
+    $('#address-type-check').change(
+        function(){
+            const url = new URL(window.location);
+            if (this.checked) {
+                url.searchParams.set('addressType', 'full')
+            } else {
+                url.searchParams.set('addressType', 'partial')
+            }
+
+            window.history.pushState(null, '', url.toString())
+            changeAddressType()
         }
     );
 });
